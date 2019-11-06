@@ -27,7 +27,7 @@
             <PasswordField fx:id="textPassword" GridPane.columnIndex="1" GridPane.rowIndex="1" />
          </children>
       </GridPane>
-      <Button layoutX="69.0" layoutY="188.0" mnemonicParsing="false" onAction="#login" prefHeight="55.0" prefWidth="263.0" text="Login" />
+      <Button alignment="CENTER" layoutX="69.0" layoutY="188.0" mnemonicParsing="false" onAction="#login" prefHeight="55.0" prefWidth="263.0" text="Login" />
       <Label fx:id="loginStatus" alignment="CENTER" contentDisplay="CENTER" layoutX="69.0" layoutY="256.0" prefHeight="17.0" prefWidth="263.0" textAlignment="CENTER" />
    </children>
 </AnchorPane>

@@ -1,7 +1,6 @@
 package rentacar.view;
 
 import java.io.IOException;
-import java.util.List;
 
 import org.hibernate.Session;
 
@@ -18,6 +17,8 @@ import rentacar.App;
 import rentacar.Operator;
 
 public class LoginControler {
+	
+	private Operator logedOperator= new Operator();
 
 	@FXML
 	private TextField textUsername;
@@ -49,18 +50,13 @@ public class LoginControler {
 			
 			Scene scene = new Scene(OperatorMainView);
 			operatorMainStage.setScene(scene);
-			operatorMainStage.showAndWait();
-			
-			//loginStatus.setText("Admin loged in");
+			operatorMainStage.show();
 		}
 		else {
 			Session session = rentacar.HibernateUtil.getSessionFactory().openSession();
-	        List <Operator> kl = session.createQuery("from Operator s where s.userName='"+username+"' AND s.password='"+password+"'").list();
-			/*Operator operat;
-			 operat = (Operator)session.createQuery("from Operator s where s.userName='"+username+"' AND s.password='"+password+"'").uniqueResult();
-			//session.getTransaction().commit();
-			*/
-			if(!kl.isEmpty())
+			
+			logedOperator = (Operator) session.createQuery("from Operator s where s.userName='"+username+"' AND s.password='"+password+"'").uniqueResult();
+			if(logedOperator != null)
 			{
 				//Opening OperatorMainView
 				FXMLLoader loader = new FXMLLoader();
@@ -80,6 +76,8 @@ public class LoginControler {
 			loginStatus.setText("Wrong username or password!");
 		}
 		
-		
+		//textUsername.getScene().getWindow().hide();
 	}
+
+	
 }

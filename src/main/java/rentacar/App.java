@@ -1,8 +1,6 @@
 package rentacar;
 
 
-import java.util.Date;
-import java.util.List;
 
 import org.hibernate.Session;
 
@@ -16,7 +14,7 @@ import javafx.stage.Stage;
 
 public class App extends Application 
 {
-
+	
 	
 	public void start(Stage primaryStage) {
 		try {
@@ -33,11 +31,12 @@ public class App extends Application
 	
 	
     public static void main( String[] args )
-    {
+    {    	
     	Session session = HibernateUtil.getSessionFactory().openSession();
     	session.beginTransaction();
     	session.getTransaction().commit();
     	launch(args);
+    	
     	
     	/*Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
@@ -70,5 +69,9 @@ public class App extends Application
         System.out.println( "Hello World!" + today2);
         
         */
+  
+        
+    	
+    	
     }
 }

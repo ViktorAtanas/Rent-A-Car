@@ -5,12 +5,14 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -51,15 +53,25 @@ public class AdminMainViewController implements Initializable {
 	private ComboBox companyComboBox;
 	@FXML
 	private Button addOperatorBtn;
+	@FXML
+	private ChoiceBox<Company> companyChoiceBox;
+	
 
 
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
 		
 		Session session = rentacar.HibernateUtil.getSessionFactory().openSession();
-		List <Company> kl = session.createQuery("from Company").list();
 		
+		List <Company> kl = session.createQuery("from Company").list();
 		companyComboBox.getItems().setAll(kl);
+		
+		//ObservableList<Company> coursesList = session.createQuery("from Company");
+		
+		
+		Query query = session.createQuery("from Company");
+		ObservableList<Company> list = FXCollections.observableArrayList(query.list());
+		companyChoiceBox.setItems(list);
 	}
 	@FXML
 	private void addOperator() {

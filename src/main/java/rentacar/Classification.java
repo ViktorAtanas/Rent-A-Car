@@ -11,9 +11,7 @@ import javax.persistence.Table;
 @Table(name="classification")
 public class Classification {
 	
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="idClassification")
+
 	private int idClassification; 
 	private String classificationType;
 	private double pricePerDay;
@@ -40,7 +38,9 @@ public class Classification {
 		this.pricePerDay = pricePerDay;
 		this.pricePerKM = pricePerKM;
 	}
-
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="idClassification")
 	public int getIdClassification() {
 		return idClassification;
 	}
@@ -72,5 +72,12 @@ public class Classification {
 	public void setPricePerKM(double pricePerKM) {
 		this.pricePerKM = pricePerKM;
 	}
+
+	@Override
+	public String toString() {
+		return "Type=" + classificationType + ", pricePerDay=" + pricePerDay
+				+ ", pricePerKM=" + pricePerKM;
+	}
+	
 	
 }

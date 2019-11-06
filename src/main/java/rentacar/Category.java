@@ -50,6 +50,12 @@ public class Category {
 	public void setCategoryType(String categoryType) {
 		CategoryType = categoryType;
 	}
+
+
+	@Override
+	public String toString() {
+		return CategoryType;
+	}
 	
 	
 }

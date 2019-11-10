@@ -1,8 +1,6 @@
 package rentacar;
 
-import java.util.Date;
-
-
+import java.time.LocalDate;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,14 +16,14 @@ public class Opis {
 	private int idOpis;
 	private double currKM;
 	private String problems;
-	private Date date;
+	private LocalDate date;
 	private Car car;
 	
 	public Opis() {
 		
 	}
 
-	public Opis(double currKM, Date date, String problems, Car car) {
+	public Opis(double currKM, LocalDate date, String problems, Car car) {
 		super();
 		this.currKM = currKM;
 		this.date = date;
@@ -52,11 +50,11 @@ public class Opis {
 		this.currKM = currKM;
 	}
 
-	public Date getDate() {
+	public LocalDate getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(LocalDate date) {
 		this.date = date;
 	}
 

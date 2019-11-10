@@ -24,7 +24,7 @@
             <Label alignment="BOTTOM_CENTER" text="Username:" />
             <Label contentDisplay="CENTER" text="Password: " GridPane.rowIndex="1" />
             <TextField fx:id="textUsername" GridPane.columnIndex="1" />
-            <PasswordField fx:id="textPassword" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <PasswordField fx:id="textPassword" onKeyPressed="#handleEnter" GridPane.columnIndex="1" GridPane.rowIndex="1" />
          </children>
       </GridPane>
       <Button alignment="CENTER" layoutX="69.0" layoutY="188.0" mnemonicParsing="false" onAction="#login" prefHeight="55.0" prefWidth="263.0" text="Login" />

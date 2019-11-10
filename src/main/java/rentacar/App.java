@@ -71,7 +71,11 @@ public class App extends Application
         */
   
         
-    	
+    	System.exit(0);
     	
     }
+
+
+
+    
 }

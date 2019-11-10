@@ -145,7 +145,7 @@ public class Car {
 
 	@Override
 	public String toString() {
-		return "Car [idCar=" + idCar + ", regNumber=" + regNumber + ", carModel=" + carModel + ", smoking=" + smoking
+		return "regNumber=" + regNumber + ", carModel=" + carModel + ", smoking=" + smoking
 				+ ", carStatus=" + carStatus + ", currKM=" + currKM + ", photoPath=" + photoPath + ", classification="
 				+ classification + ", category=" + category + "]";
 	}

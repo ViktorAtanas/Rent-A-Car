@@ -82,23 +82,30 @@ public class Client {
 		this.clientRating = clientRating;
 	}
 
+
+	public int getIdClient() {
+		return idClient;
+	}
+
+
+
+	public void setIdClient(int idClient) {
+		this.idClient = idClient;
+	}
+
+
+
 	public double getClientRating() {
-		
-		
-		return 0;
+		return clientRating;
 	}
-	
-	public String clientDriveLincenceNumber() {
-		
-		
-		return "";
-	}
+
+
 
 	@Override
 	public String toString() {
-		return "Client [idClient=" + idClient + ", clientName=" + clientName + ", clientPIN=" + clientPIN
-				+ ", clientAddress=" + clientAddress + ", clientRating=" + clientRating + ", clientDriveLicenceNumber="
-				+ clientDriveLicenceNumber + "]";
+		return clientName+" ЕГН=" + clientPIN+ " № Ш.К="+ clientDriveLicenceNumber
+				+ " Рейтинг=" + clientRating 
+				 + "\nАдрес=" + clientAddress;
 	}
 	
 	

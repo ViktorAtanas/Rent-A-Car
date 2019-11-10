@@ -8,29 +8,31 @@
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<BorderPane prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rentacar.view.OperatorMainView">
+<BorderPane prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rentacar.view.OperatorMainView">
    <center>
-      <TabPane prefHeight="397.0" prefWidth="637.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+      <TabPane prefHeight="500.0" prefWidth="700.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
         <tabs>
           <Tab text="Начало">
                <content>
                   <BorderPane fx:id="bp" prefHeight="200.0" prefWidth="200.0">
                      <right>
-                        <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="471.0" prefWidth="187.0" BorderPane.alignment="CENTER">
+                        <SplitPane dividerPositions="0.5330490405117271" orientation="VERTICAL" prefHeight="471.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                           <items>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="200.0">
                                  <children>
-                                    <Button layoutX="2.0" layoutY="14.0" mnemonicParsing="false" onAction="#rentCar" prefHeight="25.0" prefWidth="181.0" text="Наемане на автомобил" />
-                                    <Button layoutX="1.0" layoutY="52.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="183.0" text="Връщане на автомобил" />
+                                    <Button layoutX="1.0" layoutY="48.0" mnemonicParsing="false" onAction="#rentCarBtn" prefHeight="25.0" prefWidth="197.0" text="Наемане на автомобил" />
+                                    <Button layoutX="1.0" layoutY="83.0" mnemonicParsing="false" onAction="#returnCarBtn" prefHeight="25.0" prefWidth="197.0" text="Връщане на автомобил" />
+                                    <Button layoutY="14.0" mnemonicParsing="false" onAction="#homeBtn" prefHeight="25.0" prefWidth="199.0" text="Начало" />
                                  </children>
                               </AnchorPane>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="231.0" prefWidth="193.0">
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="200.0">
                                  <children>
                                     <Label layoutX="54.0" layoutY="107.0" text="Известия" />
                                  </children>
@@ -43,9 +45,9 @@
           </Tab>
           <Tab text="Регистрация на автомобил">
             <content>
-              <AnchorPane fx:id="ap" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <GridPane alignment="CENTER" layoutX="53.0" layoutY="47.0" prefHeight="314.0" prefWidth="595.0">
+                        <GridPane alignment="CENTER" layoutX="153.0" layoutY="46.0" prefHeight="314.0" prefWidth="595.0">
                           <columnConstraints>
                             <ColumnConstraints hgrow="SOMETIMES" maxWidth="293.0" minWidth="10.0" prefWidth="160.0" />
                             <ColumnConstraints hgrow="SOMETIMES" maxWidth="449.0" minWidth="10.0" prefWidth="435.0" />
@@ -54,6 +56,7 @@
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -77,18 +80,46 @@
                               <CheckBox fx:id="smokingCheckBox" mnemonicParsing="false" prefHeight="17.0" prefWidth="82.0" text="Да" GridPane.columnIndex="1" GridPane.rowIndex="6" />
                            </children>
                         </GridPane>
-                        <Button layoutX="536.0" layoutY="432.0" mnemonicParsing="false" onAction="#addNewCar" text="Добавяне на автомобил" />
+                        <Button layoutX="375.0" layoutY="399.0" mnemonicParsing="false" onAction="#addNewCar" text="Добавяне на автомобил" />
+                        <ImageView fx:id="img1" fitHeight="150.0" fitWidth="200.0" layoutX="450.0" layoutY="249.0" pickOnBounds="true" preserveRatio="true" />
                      </children></AnchorPane>
             </content>
           </Tab>
           <Tab text="Регистрирация на клиент">
                <content>
-                  <BorderPane prefHeight="200.0" prefWidth="200.0" />
+                  <AnchorPane>
+                     <children>
+                        <GridPane fx:id="clGridPane" layoutX="160.0" layoutY="117.0" prefHeight="189.0" prefWidth="581.0">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="286.0" minWidth="10.0" prefWidth="186.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="395.0" minWidth="10.0" prefWidth="395.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Label text="ЕГН:" />
+                              <Label text="Имена:" GridPane.rowIndex="1" />
+                              <Label text="Адрес:" GridPane.rowIndex="2" />
+                              <Label text="Номер на шофьорска книжка:" wrapText="true" GridPane.rowIndex="3" />
+                              <TextField fx:id="clPin" GridPane.columnIndex="1" />
+                              <TextField fx:id="clNames" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <TextField fx:id="clAddress" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <TextField fx:id="clDrLicence" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                           </children>
+                        </GridPane>
+                        <Button layoutX="376.0" layoutY="353.0" mnemonicParsing="false" onAction="#addOperatorBtn" text="Добавяне на клиент" />
+                        <Label fx:id="clStatusAdd" alignment="CENTER" layoutX="197.0" layoutY="378.0" prefHeight="17.0" prefWidth="281.0" textAlignment="CENTER" />
+                     </children>
+                  </AnchorPane>
                </content>
           </Tab>
            <Tab text="Справки">
                <content>
-                  <BorderPane prefHeight="200.0" prefWidth="200.0" />
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0" />
                </content>
           </Tab>
         </tabs>

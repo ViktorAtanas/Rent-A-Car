@@ -1,6 +1,6 @@
 package rentacar;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -15,8 +15,8 @@ import javax.persistence.Table;
 @Table(name="rent")
 public class Rent {
 	private int idRent;
-	private Date dateRent;
-	private Date dateReturn;
+	private LocalDate dateRent;
+	private LocalDate dateReturn;
 	private double traveledKM;
 	private double totalPrice;
 	private Operator operator;
@@ -27,8 +27,10 @@ public class Rent {
 		
 	}
 	
-	public Rent(Date dateRent, Date dateReturn, double traveledKM, double totalPrice, Operator operator, Car car,
-			Client client) {
+
+
+	public Rent(LocalDate dateRent, LocalDate dateReturn, double traveledKM, double totalPrice, Operator operator,
+			Car car, Client client) {
 		super();
 		this.dateRent = dateRent;
 		this.dateReturn = dateReturn;
@@ -38,6 +40,8 @@ public class Rent {
 		this.car = car;
 		this.client = client;
 	}
+
+
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -50,19 +54,21 @@ public class Rent {
 		this.idRent = idRent;
 	}
 
-	public Date getDateRent() {
+
+
+	public LocalDate getDateRent() {
 		return dateRent;
 	}
 
-	public void setDateRent(Date dateRent) {
+	public void setDateRent(LocalDate dateRent) {
 		this.dateRent = dateRent;
 	}
 
-	public Date getDateReturn() {
+	public LocalDate getDateReturn() {
 		return dateReturn;
 	}
 
-	public void setDateReturn(Date dateReturn) {
+	public void setDateReturn(LocalDate dateReturn) {
 		this.dateReturn = dateReturn;
 	}
 

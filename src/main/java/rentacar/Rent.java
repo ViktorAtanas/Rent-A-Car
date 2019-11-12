@@ -23,6 +23,7 @@ public class Rent {
 	private Car car;
 	private Client client;
 	
+	
 	public Rent() {
 		
 	}

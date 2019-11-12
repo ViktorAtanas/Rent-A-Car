@@ -20,10 +20,10 @@
         </columnConstraints>
         <rowConstraints>
           <RowConstraints maxHeight="79.0" minHeight="0.0" prefHeight="43.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="170.0" minHeight="10.0" prefHeight="90.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="212.0" minHeight="10.0" prefHeight="62.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="170.0" minHeight="10.0" prefHeight="142.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="212.0" minHeight="10.0" prefHeight="55.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="212.0" minHeight="10.0" prefHeight="37.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="212.0" minHeight="10.0" prefHeight="38.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="212.0" minHeight="10.0" prefHeight="72.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
             <Label text="EГН на клиент:" />
@@ -43,7 +43,6 @@
          </children>
       </GridPane>
       <Label layoutX="285.0" layoutY="14.0" text="Връщане на автомобил" />
-      <Button layoutX="323.0" layoutY="409.0" mnemonicParsing="false" text="Връщане" />
-      <Button layoutX="613.0" layoutY="409.0" mnemonicParsing="false" onAction="#updateRentListView" text="Button" />
+      <Button layoutX="323.0" layoutY="409.0" mnemonicParsing="false" onAction="#returnCarBtn" text="Връщане" />
    </children>
 </AnchorPane>

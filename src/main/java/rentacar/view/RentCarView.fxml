@@ -5,7 +5,6 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -13,27 +12,26 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rentacar.view.RentCarController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rentacar.view.RentCarController">
    <children>
       <Label layoutX="286.0" layoutY="14.0" text="Наемане на автомобил" />
-      <Button layoutX="321.0" layoutY="399.0" mnemonicParsing="false" onAction="#rentBtn" text="Добави" />
-      <GridPane layoutX="69.0" layoutY="46.0" prefHeight="338.0" prefWidth="564.0">
+      <Button layoutX="313.0" layoutY="511.0" mnemonicParsing="false" onAction="#rentBtn" text="Добави" />
+      <GridPane layoutX="69.0" layoutY="32.0" prefHeight="431.0" prefWidth="564.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="211.0" minWidth="10.0" prefWidth="145.0" />
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="445.0" minWidth="10.0" prefWidth="417.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints maxHeight="122.0" minHeight="10.0" prefHeight="27.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="148.0" minHeight="10.0" prefHeight="39.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="190.0" minHeight="10.0" prefHeight="36.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="198.0" minHeight="10.0" prefHeight="198.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="148.0" minHeight="10.0" prefHeight="118.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="190.0" minHeight="10.0" prefHeight="43.0" vgrow="NEVER" />
+            <RowConstraints maxHeight="198.0" minHeight="10.0" prefHeight="183.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
             <Label text="Клиент EГН:" />
-            <TextField fx:id="clientPIN" onKeyReleased="#showClientInfo" GridPane.columnIndex="1" />
+            <TextField fx:id="clientPIN" GridPane.columnIndex="1" />
             <Label text="Критерии за автомобил:" GridPane.rowIndex="2" />
-            <TextArea fx:id="clientInfo" editable="false" prefHeight="48.0" prefWidth="418.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <TextField fx:id="carSpecs" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <Label text="Информация за клиент:" GridPane.rowIndex="1" />
             <Label GridPane.rowIndex="4" />
@@ -54,6 +52,14 @@
                   <ImageView fx:id="carImg" fitHeight="152.0" fitWidth="147.0" layoutX="-7.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true" />
                </children>
             </AnchorPane>
+            <TableView fx:id="clientTableView" prefHeight="68.0" prefWidth="418.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+              <columns>
+                <TableColumn fx:id="clientNames" prefWidth="75.0" text="Имена" />
+                <TableColumn fx:id="clientPin" prefWidth="75.0" text="ЕГН" />
+                  <TableColumn fx:id="clientDriveLic" prefWidth="75.0" text="№ Ш.К" />
+                  <TableColumn fx:id="clientAddress" prefWidth="192.0" text="Адрес" />
+              </columns>
+            </TableView>
          </children>
       </GridPane>
    </children>

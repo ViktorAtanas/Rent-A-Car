@@ -34,26 +34,61 @@ import javafx.collections.transformation.SortedList;
 public class RentCarController implements Initializable {
 
 	@FXML private TextField clientPIN;
-	@FXML private TextArea clientInfo;
+	//@FXML private TextArea clientInfo;
 	@FXML private TextField carSpecs;
 	@FXML private TableView<Car> cartableView;
+	@FXML private TableView<Client> clientTableView;
 	@FXML private DatePicker returnDate;
 	@FXML private ImageView carImg;
-	private Client choosenClient;
-	
+
+	@FXML private TableColumn<Client,String> clientNames;
+	@FXML private TableColumn<Client, String> clientPin;
+	@FXML private TableColumn<Client, String> clientDriveLic;
+	@FXML private TableColumn<Client, String> clientAddress;
 	
 	public void showClientInfo() {
-		String clPIN = clientPIN.getText().toString();
-		clientInfo.clear();
 		
 		Session session = rentacar.HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
+        Query query = session.createQuery("from Client");
+		ObservableList<Client> clientList = FXCollections.observableArrayList(query.list());
         
-        choosenClient = (Client) session.createQuery("from Client s where s.clientPIN='"+clPIN+"'").uniqueResult();
         session.getTransaction().commit();
         
-        if(choosenClient!=null)
-    	clientInfo.setText(choosenClient.toString());
+        clientNames.setCellValueFactory(
+                new PropertyValueFactory<Client, String>("clientName"));
+        clientPin.setCellValueFactory(
+                new PropertyValueFactory<Client, String>("clientPIN"));
+        clientAddress.setCellValueFactory(
+                new PropertyValueFactory<Client, String>("clientAddress"));       
+        clientDriveLic.setCellValueFactory(
+                new PropertyValueFactory<Client, String>("clientDriveLicenceNumber"));   
+        
+        
+        clientTableView.setItems(clientList);
+        FilteredList<Client> filteredData = new FilteredList<>(clientList, p -> true);
+
+        clientPIN.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(person -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+                
+                String lowerCaseFilter = newValue.toLowerCase();
+                
+                if (person.getClientName().toLowerCase().contains(lowerCaseFilter)) {
+                    return true; 
+                } else if (person.getClientPIN().toLowerCase().contains(lowerCaseFilter)) {
+                    return true; 
+                }
+                return false;
+            });
+        });
+    
+        SortedList<Client> sortedData = new SortedList<>(filteredData);
+        sortedData.comparatorProperty().bind(clientTableView.comparatorProperty());
+        clientTableView.setItems(sortedData); 
+    	
 
 	}
 	
@@ -68,7 +103,7 @@ public class RentCarController implements Initializable {
 		Session session = rentacar.HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         
-		Query query2 = session.createQuery("from Car"); 
+		Query query2 = session.createQuery("from Car c where c.carStatus='0'"); 
 		ObservableList<Car> list2 = FXCollections.observableArrayList(query2.list());
         session.getTransaction().commit();
         
@@ -94,20 +129,18 @@ public class RentCarController implements Initializable {
 
             carSpecs.textProperty().addListener((observable, oldValue, newValue) -> {
                 filteredData.setPredicate(person -> {
-                    // If filter text is empty, display all persons.
                     if (newValue == null || newValue.isEmpty()) {
                         return true;
                     }
                     
-                    // Compare first name and last name of every person with filter text.
                     String lowerCaseFilter = newValue.toLowerCase();
                     
                     if (person.getCarModel().toLowerCase().contains(lowerCaseFilter)) {
-                        return true; // Filter matches first name.
+                        return true;
                     } else if (person.getCategory().getCategoryType().toLowerCase().contains(lowerCaseFilter)) {
-                        return true; // Filter matches last name.
+                        return true; 
                     }
-                    return false; // Does not match.
+                    return false; 
                 });
             });
         
@@ -120,7 +153,8 @@ public class RentCarController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		initCarTableView();
-		
+		showClientInfo();
+
 	}
 	
 	public void imageViewUpdate() throws MalformedURLException {
@@ -131,21 +165,14 @@ public class RentCarController implements Initializable {
 		 String localUrl = file.toURI().toURL().toString();	          
          Image image = new Image(localUrl);
          carImg.setImage(image);
-		
-		
-		
-		/*
-		 String imageSource = "C:/Users/Atanas/Desktop/download.jpg";
-		  Image image = new Image(imageSource);
-	        carImg.setImage(image);
-	        */
 	}
 	
 	public void rentBtn() throws MalformedURLException {
 		LocalDate rtrnDate= returnDate.getValue();
 		Operator operator = Singleton.getInstance().getLogedOperator();
 		Car car1 = cartableView.getSelectionModel().getSelectedItem();
-		 
+		Client choosenClient = clientTableView.getSelectionModel().getSelectedItem();
+		
 		 Rent rent =new Rent(LocalDate.now(), rtrnDate, 0, 0, operator, car1, choosenClient);
 		 Opis opis = new Opis(car1.getCurrKM(), LocalDate.now(), "Otdadena bez problem", car1);
 
@@ -156,7 +183,9 @@ public class RentCarController implements Initializable {
 	     session.save(opis);
 		 car1.setCarStatus(true);
 		 session.update(car1);
-	     session.getTransaction().commit();
+		 
+		 session.getTransaction().commit();
+	
 		 
 	}
 	

@@ -16,6 +16,8 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import rentacar.Category;
+import rentacar.Classification;
 import rentacar.Company;
 import rentacar.Operator;
 
@@ -89,5 +91,33 @@ public class AdminMainViewController implements Initializable {
         session.getTransaction().commit();
 	}
 
-	  
+		//Add Classification
+	@FXML private TextField typeClassification;
+	@FXML private TextField classificationPricePerDay;
+	@FXML private TextField classificationPricePerKM;
+	
+	public void addClassification() {
+		String classificationType = typeClassification.getText().toString();
+		Double pricePerDay = Double.parseDouble(classificationPricePerDay.getText().toString());
+		Double pricePerKM = Double.parseDouble(classificationPricePerKM.getText().toString());
+		
+		 Classification cl = new Classification(classificationType, pricePerDay, pricePerKM);
+		 Session session = rentacar.HibernateUtil.getSessionFactory().openSession();
+	     session.beginTransaction();	
+	     session.save(cl);
+	     session.getTransaction().commit();
+	}
+	
+	 	//Add Category
+	@FXML private TextField typeCategory;
+	
+	public void addCategory() {
+		 String CategoryType = typeCategory.getText().toString();
+		 Category ctgr = new Category(CategoryType);
+		 Session session = rentacar.HibernateUtil.getSessionFactory().openSession();
+	     session.beginTransaction();	
+	     session.save(ctgr);
+	     session.getTransaction().commit();
+	}
+	
 }

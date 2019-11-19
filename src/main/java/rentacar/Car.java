@@ -3,6 +3,7 @@ package rentacar;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -133,21 +134,16 @@ public class Car {
 	}
 	
 
-	public boolean checkStatus() {
-	 
-		
-		return false;
-	}
-	
-	public void setStatus()	{
-		
-	}
 
 	@Override
 	public String toString() {
-		return "regNumber=" + regNumber + ", carModel=" + carModel + ", smoking=" + smoking
-				+ ", carStatus=" + carStatus + ", currKM=" + currKM + ", photoPath=" + photoPath + ", classification="
-				+ classification + ", category=" + category + "]";
+		return carModel +" " + category+" "+regNumber;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		// TODO Auto-generated method stub
+		return super.equals(obj);
 	}
 	
 	

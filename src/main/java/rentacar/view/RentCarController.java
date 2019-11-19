@@ -6,14 +6,16 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
-import org.hibernate.Query;
+
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -34,10 +36,9 @@ import javafx.collections.transformation.SortedList;
 public class RentCarController implements Initializable {
 
 	@FXML private TextField clientPIN;
-	//@FXML private TextArea clientInfo;
 	@FXML private TextField carSpecs;
 	@FXML private TableView<Car> cartableView;
-	@FXML private TableView<Client> clientTableView;
+	@FXML private TableView<Client>clientTableView;
 	@FXML private DatePicker returnDate;
 	@FXML private ImageView carImg;
 
@@ -67,6 +68,8 @@ public class RentCarController implements Initializable {
         
         clientTableView.setItems(clientList);
         FilteredList<Client> filteredData = new FilteredList<>(clientList, p -> true);
+        
+
 
         clientPIN.textProperty().addListener((observable, oldValue, newValue) -> {
             filteredData.setPredicate(person -> {
@@ -89,6 +92,7 @@ public class RentCarController implements Initializable {
         sortedData.comparatorProperty().bind(clientTableView.comparatorProperty());
         clientTableView.setItems(sortedData); 
     	
+
 
 	}
 	
@@ -154,17 +158,37 @@ public class RentCarController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		initCarTableView();
 		showClientInfo();
-
+		
+       /* clientPin.setCellFactory(col -> {
+            TableCell<Client, String> cell = new TableCell<Client, String>() {
+                @Override
+                public void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+         
+                    if (item.equals("9802068729")) {
+                        this.setBackgroundColor(Color.RED);setStyle("-fx-background-color: tomato;"); 
+                    } else {
+                        this.setBackgroundColor(Color.GREEN);
+                    }
+                }
+            };
+            return cell;
+        });*/
 	}
 	
 	public void imageViewUpdate() throws MalformedURLException {
-		
+        try
+        {
 		Car car1 = cartableView.getSelectionModel().getSelectedItem();
-		
 		File file = new File(car1.getPhotoPath());
 		 String localUrl = file.toURI().toURL().toString();	          
          Image image = new Image(localUrl);
          carImg.setImage(image);
+        }
+         catch(NullPointerException e)
+         {
+             System.out.print("NullPointerException caught");
+         }
 	}
 	
 	public void rentBtn() throws MalformedURLException {
@@ -176,17 +200,25 @@ public class RentCarController implements Initializable {
 		 Rent rent =new Rent(LocalDate.now(), rtrnDate, 0, 0, operator, car1, choosenClient);
 		 Opis opis = new Opis(car1.getCurrKM(), LocalDate.now(), "Otdadena bez problem", car1);
 
-		 
+
+		 Session session1 = rentacar.HibernateUtil.getSessionFactory().openSession();
+	     session1.beginTransaction();
+	     Car carCheck = (Car) session1.createQuery("from Car c where c.idCar='"+car1.getIdCar()+"'").uniqueResult();
+		 session1.getTransaction().commit();
+	     
 		 Session session = rentacar.HibernateUtil.getSessionFactory().openSession();
-	     session.beginTransaction();	    
-	     session.save(rent);
-	     session.save(opis);
-		 car1.setCarStatus(true);
-		 session.update(car1);
-		 
+	     session.beginTransaction();
+	     if(!carCheck.isCarStatus())
+	     {
+	    	 session.save(rent);
+	    	 session.save(opis);
+	    	 car1.setCarStatus(true);
+	    	 session.update(car1);
+	    	 
+	    	 System.out.println("Car not available");
+	     }
 		 session.getTransaction().commit();
-	
-		 
+
 	}
 	
 }

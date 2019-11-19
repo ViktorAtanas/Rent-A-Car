@@ -3,6 +3,7 @@ package rentacar;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -75,7 +76,7 @@ public class Operator {
 	public void setStatusLogin(boolean statusLogin) {
 		this.statusLogin = statusLogin;
 	}
-	@ManyToOne(cascade = CascadeType.ALL) 
+	@ManyToOne(cascade = CascadeType.ALL)
 	public Company getCompany() {
 		return company;
 	}
@@ -86,9 +87,32 @@ public class Operator {
 
 	@Override
 	public String toString() {
-		return "Operator [idOperator=" + idOperator + ", userName=" + userName + ", password=" + password
-				+ ", nameOfOperator=" + nameOfOperator + ", statusLogin=" + statusLogin + ", company=" + company + "]";
+		return nameOfOperator +" / " + company;
 	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Operator other = (Operator) obj;
+		if (idOperator != other.idOperator)
+			return false;
+		if (userName == null) {
+			if (other.userName != null)
+				return false;
+		} else if (!userName.equals(other.userName))
+			return false;
+		return true;
+	}
+
+
+
+
 	
 	
 		

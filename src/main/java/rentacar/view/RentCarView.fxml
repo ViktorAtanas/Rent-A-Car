@@ -12,14 +12,14 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rentacar.view.RentCarController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rentacar.view.RentCarController">
    <children>
       <Label layoutX="286.0" layoutY="14.0" text="Наемане на автомобил" />
-      <Button layoutX="313.0" layoutY="511.0" mnemonicParsing="false" onAction="#rentBtn" text="Добави" />
-      <GridPane layoutX="69.0" layoutY="32.0" prefHeight="431.0" prefWidth="564.0">
+      <Button layoutX="715.0" layoutY="469.0" mnemonicParsing="false" onAction="#rentBtn" text="Добави" />
+      <GridPane layoutX="57.0" layoutY="38.0" prefHeight="431.0" prefWidth="716.0">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="211.0" minWidth="10.0" prefWidth="145.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="445.0" minWidth="10.0" prefWidth="417.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="211.0" minWidth="10.0" prefWidth="101.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="555.0" minWidth="10.0" prefWidth="555.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints maxHeight="122.0" minHeight="10.0" prefHeight="27.0" vgrow="SOMETIMES" />
@@ -39,11 +39,11 @@
             <DatePicker fx:id="returnDate" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <TableView fx:id="cartableView" onMouseClicked="#imageViewUpdate" prefHeight="164.0" prefWidth="422.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
               <columns>
-                <TableColumn fx:id="regNumberCol" prefWidth="67.0" text="Рег номер" />
-                <TableColumn fx:id="carModelCol" prefWidth="76.0" text="Модел" />
-                  <TableColumn fx:id="smoking" prefWidth="70.0" text="Пушене" />
-                  <TableColumn fx:id="carClassificatinCol" prefWidth="117.0" text="Клас" />
-                  <TableColumn fx:id="carCategoryCol" prefWidth="87.0" text="Категория" />
+                <TableColumn fx:id="regNumberCol" prefWidth="87.0" resizable="false" text="Рег номер" />
+                <TableColumn fx:id="carModelCol" prefWidth="100.0" resizable="false" text="Модел" />
+                  <TableColumn fx:id="smoking" prefWidth="88.0" resizable="false" text="Пушене" />
+                  <TableColumn fx:id="carClassificatinCol" prefWidth="145.0" resizable="false" text="Клас" />
+                  <TableColumn fx:id="carCategoryCol" prefWidth="134.0" resizable="false" text="Категория" />
               </columns>
             </TableView>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3">
@@ -54,10 +54,10 @@
             </AnchorPane>
             <TableView fx:id="clientTableView" prefHeight="68.0" prefWidth="418.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
               <columns>
-                <TableColumn fx:id="clientNames" prefWidth="75.0" text="Имена" />
-                <TableColumn fx:id="clientPin" prefWidth="75.0" text="ЕГН" />
-                  <TableColumn fx:id="clientDriveLic" prefWidth="75.0" text="№ Ш.К" />
-                  <TableColumn fx:id="clientAddress" prefWidth="192.0" text="Адрес" />
+                <TableColumn fx:id="clientNames" prefWidth="140.0" text="Имена" />
+                <TableColumn fx:id="clientPin" prefWidth="85.0" text="ЕГН" />
+                  <TableColumn fx:id="clientDriveLic" minWidth="0.0" prefWidth="128.0" text="№ Ш.К" />
+                  <TableColumn fx:id="clientAddress" minWidth="0.0" prefWidth="201.0" text="Адрес" />
               </columns>
             </TableView>
          </children>

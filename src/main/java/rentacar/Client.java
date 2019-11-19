@@ -103,7 +103,8 @@ public class Client {
 
 	@Override
 	public String toString() {
-		return clientName+" ЕГН=" + clientPIN+ " № Ш.К="+ clientDriveLicenceNumber
+		return clientName+" ЕГН=" + clientPIN
+				+ "\n № Ш.К="+ clientDriveLicenceNumber
 				+ " Рейтинг=" + clientRating 
 				 + "\nАдрес=" + clientAddress;
 	}

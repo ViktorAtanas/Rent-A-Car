@@ -52,11 +52,10 @@ public class AdminMainViewController implements Initializable {
 	@FXML
 	private TextField operatorNames;
 	@FXML
-	private ComboBox companyComboBox;
+	private ComboBox<Company> companyComboBox;
 	@FXML
 	private Button addOperatorBtn;
-	@FXML
-	private ChoiceBox<Company> companyChoiceBox;
+
 	
 
 
@@ -64,16 +63,9 @@ public class AdminMainViewController implements Initializable {
 		// TODO Auto-generated method stub
 		
 		Session session = rentacar.HibernateUtil.getSessionFactory().openSession();
-		
-		List <Company> kl = session.createQuery("from Company").list();
-		companyComboBox.getItems().setAll(kl);
-		
-		//ObservableList<Company> coursesList = session.createQuery("from Company");
-		
-		
 		Query query = session.createQuery("from Company");
 		ObservableList<Company> list = FXCollections.observableArrayList(query.list());
-		companyChoiceBox.setItems(list);
+		companyComboBox.getItems().setAll(list);
 	}
 	@FXML
 	private void addOperator() {

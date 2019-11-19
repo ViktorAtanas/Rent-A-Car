@@ -58,7 +58,7 @@ public class ReturnCarController implements Initializable{
 		public void updateRentListView() {
 			Session session = rentacar.HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
-			Query query = session.createQuery("from Rent s where s.traveledKM='0' AND s.totalPrice='0'");
+			Query query = session.createQuery("from Rent s where s.completedStatus='0'");
 			ObservableList<Rent> list1 = FXCollections.observableArrayList(query.list());
 			 session.getTransaction().commit();
 			
@@ -120,11 +120,12 @@ public class ReturnCarController implements Initializable{
 			
 			rent.setTraveledKM(traveledKm);
 			rent.setTotalPrice(totalPrice);
+			rent.setCompletedStatus(true);
 			
 			rentedCar.setCarStatus(false);
 			rentedCar.setCurrKM(newKm);
 			
-			String returnProblems = "Vurnata bez problem";
+			String returnProblems = "Върната без проблем";
 			if(problemsCheckBox.isSelected())
 				returnProblems = problemsTextField.getText().toString();
 			

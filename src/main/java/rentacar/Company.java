@@ -62,7 +62,7 @@ public class Company {
 
 	@Override
 	public String toString() {
-		return "Company ["+companyName + "," + companyAddress + "]";
+		return ""+companyName + ", " + companyAddress ;
 	}
 	
 	

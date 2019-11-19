@@ -1,128 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
-<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.effect.SepiaTone?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 
-<BorderPane prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rentacar.view.OperatorMainView">
+<BorderPane fx:id="mainBP" maxWidth="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rentacar.view.OperatorMainView">
+   <top>
+      <MenuBar prefHeight="25.0" BorderPane.alignment="CENTER">
+        <menus>
+          <Menu mnemonicParsing="false" text="Файл">
+            <items>
+                  <MenuItem mnemonicParsing="false" onAction="#homeMenuItem" text="Начало" />
+                  <MenuItem mnemonicParsing="false" onAction="#rentCarMenuItem" text="Наемане на автомобил" />
+                  <MenuItem mnemonicParsing="false" onAction="#returnMenuItem" text="Връщане на автомобил" />
+              <MenuItem mnemonicParsing="false" onAction="#logout" text="Изход" />
+            </items>
+          </Menu>
+            <Menu mnemonicParsing="false" text="Регистрация">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#NewCarMenuItem" text="Регистрация на автомобил" />
+                  <MenuItem mnemonicParsing="false" onAction="#NewClientMenuItem" text="Регистрация на клиент" />
+              </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Справки">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#availableCarsMenuItem" text="Налични автомобил" />
+                  <MenuItem mnemonicParsing="false" onAction="#historyOfCarsMenuItem" text="История на отдаване на автомобили" />
+                  <MenuItem mnemonicParsing="false" onAction="#operatorsWorkMenuItem" text="По опрератори и тяхната работа" />
+                  <MenuItem mnemonicParsing="false" onAction="#clientRatingMenuItem" text="Рейтинг на клиенти" />
+                  <MenuItem mnemonicParsing="false" onAction="#statisticsMenuItem" text="Статистики на отдадените автомобили" />
+              </items>
+            </Menu>
+          <Menu mnemonicParsing="false" text="Помощ">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+   </top>
    <center>
-      <TabPane prefHeight="600.0" prefWidth="700.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
-        <tabs>
-          <Tab text="Начало">
-               <content>
-                  <BorderPane fx:id="bp" prefHeight="200.0" prefWidth="200.0">
-                     <right>
-                        <SplitPane dividerPositions="0.5330490405117271" orientation="VERTICAL" prefHeight="471.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                          <items>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="200.0">
-                                 <children>
-                                    <Button layoutX="1.0" layoutY="48.0" mnemonicParsing="false" onAction="#rentCarBtn" prefHeight="25.0" prefWidth="197.0" text="Наемане на автомобил" />
-                                    <Button layoutX="1.0" layoutY="83.0" mnemonicParsing="false" onAction="#returnCarBtn" prefHeight="25.0" prefWidth="197.0" text="Връщане на автомобил" />
-                                    <Button layoutY="14.0" mnemonicParsing="false" onAction="#homeBtn" prefHeight="25.0" prefWidth="199.0" text="Начало" />
-                                 </children>
-                              </AnchorPane>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="200.0">
-                                 <children>
-                                    <Label layoutX="54.0" layoutY="107.0" text="Известия" />
-                                 </children>
-                              </AnchorPane>
-                          </items>
-                        </SplitPane>
-                     </right>
-                  </BorderPane>
-               </content>
-          </Tab>
-          <Tab text="Регистрация на автомобил">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <GridPane alignment="CENTER" layoutX="153.0" layoutY="46.0" prefHeight="314.0" prefWidth="595.0">
-                          <columnConstraints>
-                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="293.0" minWidth="10.0" prefWidth="160.0" />
-                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="449.0" minWidth="10.0" prefWidth="435.0" />
-                          </columnConstraints>
-                          <rowConstraints>
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                          </rowConstraints>
-                           <children>
-                              <Label text="Регистрационен номер: " />
-                              <TextField fx:id="regNumber" GridPane.columnIndex="1" />
-                              <Label text="Марка:" GridPane.rowIndex="1" />
-                              <TextField fx:id="carModel" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                              <Label text="Категория:" GridPane.rowIndex="2" />
-                              <Label GridPane.rowIndex="3" />
-                              <ChoiceBox fx:id="categoryChoiceBox" prefHeight="25.0" prefWidth="558.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                              <Label text="Клас:" GridPane.rowIndex="3" />
-                              <ChoiceBox fx:id="classificationChoiceBox" prefHeight="25.0" prefWidth="635.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                              <Label text="Текущи километри: " GridPane.rowIndex="4" />
-                              <TextField fx:id="currentKM" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                              <Label text="Снимка: " GridPane.rowIndex="5" />
-                              <Button fx:id="choosePictureBtn" mnemonicParsing="false" onAction="#choosePicture" prefHeight="25.0" prefWidth="197.0" text="Избор на снимка" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                              <Label text="Пушене:" GridPane.rowIndex="6" />
-                              <CheckBox fx:id="smokingCheckBox" mnemonicParsing="false" prefHeight="17.0" prefWidth="82.0" text="Да" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                           </children>
-                        </GridPane>
-                        <Button layoutX="376.0" layoutY="417.0" mnemonicParsing="false" onAction="#addNewCar" text="Добавяне на автомобил" />
-                        <ImageView fx:id="img1" fitHeight="150.0" fitWidth="200.0" layoutX="548.0" layoutY="249.0" pickOnBounds="true" preserveRatio="true" />
-                     </children></AnchorPane>
-            </content>
-          </Tab>
-          <Tab text="Регистрирация на клиент">
-               <content>
-                  <AnchorPane>
-                     <children>
-                        <GridPane fx:id="clGridPane" layoutX="160.0" layoutY="117.0" prefHeight="189.0" prefWidth="581.0">
-                          <columnConstraints>
-                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="286.0" minWidth="10.0" prefWidth="186.0" />
-                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="395.0" minWidth="10.0" prefWidth="395.0" />
-                          </columnConstraints>
-                          <rowConstraints>
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                          </rowConstraints>
-                           <children>
-                              <Label text="ЕГН:" />
-                              <Label text="Имена:" GridPane.rowIndex="1" />
-                              <Label text="Адрес:" GridPane.rowIndex="2" />
-                              <Label text="Номер на шофьорска книжка:" wrapText="true" GridPane.rowIndex="3" />
-                              <TextField fx:id="clPin" GridPane.columnIndex="1" />
-                              <TextField fx:id="clNames" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                              <TextField fx:id="clAddress" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                              <TextField fx:id="clDrLicence" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                           </children>
-                        </GridPane>
-                        <Button layoutX="376.0" layoutY="353.0" mnemonicParsing="false" onAction="#addOperatorBtn" text="Добавяне на клиент" />
-                        <Label fx:id="clStatusAdd" alignment="CENTER" layoutX="197.0" layoutY="378.0" prefHeight="17.0" prefWidth="281.0" textAlignment="CENTER" />
-                     </children>
-                  </AnchorPane>
-               </content>
-          </Tab>
-           <Tab text="Справки">
-               <content>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0" />
-               </content>
-          </Tab>
-        </tabs>
-      </TabPane>
+      <AnchorPane fx:id="mainOperatorAP" prefHeight="500.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <children>
+            <VBox layoutX="533.0" layoutY="32.0" prefHeight="442.0" prefWidth="225.0">
+               <effect>
+                  <SepiaTone />
+               </effect>
+            </VBox>
+            <Label layoutX="620.0" layoutY="14.0" text="Известия" />
+         </children></AnchorPane>
    </center>
 </BorderPane>

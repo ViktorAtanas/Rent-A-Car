@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,6 +23,7 @@ public class Rent {
 	private Operator operator;
 	private Car car;
 	private Client client;
+	private boolean completedStatus;
 	
 	
 	public Rent() {
@@ -33,6 +35,7 @@ public class Rent {
 	public Rent(LocalDate dateRent, LocalDate dateReturn, double traveledKM, double totalPrice, Operator operator,
 			Car car, Client client) {
 		super();
+		this.completedStatus=false;
 		this.dateRent = dateRent;
 		this.dateReturn = dateReturn;
 		this.traveledKM = traveledKM;
@@ -88,7 +91,7 @@ public class Rent {
 	public void setTotalPrice(double totalPrice) {
 		this.totalPrice = totalPrice;
 	}
-	@ManyToOne(cascade = CascadeType.ALL) 
+	@ManyToOne(cascade = CascadeType.ALL)
 	public Operator getOperator() {
 		return operator;
 	}
@@ -104,13 +107,25 @@ public class Rent {
 	public void setCar(Car car) {
 		this.car = car;
 	}
-	@ManyToOne(cascade = CascadeType.ALL) 
+	@ManyToOne(cascade = CascadeType.ALL)
 	public Client getClient() {
 		return client;
 	}
 
 	public void setClient(Client client) {
 		this.client = client;
+	}
+
+
+
+	public boolean isCompletedStatus() {
+		return completedStatus;
+	}
+
+
+
+	public void setCompletedStatus(boolean completedStatus) {
+		this.completedStatus = completedStatus;
 	}
 
 

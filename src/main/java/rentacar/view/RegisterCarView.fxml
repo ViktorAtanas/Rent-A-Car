@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<AnchorPane prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rentacar.view.RegisterCarController">
+   <children>
+      <GridPane layoutX="49.0" layoutY="74.0" prefHeight="233.0" prefWidth="703.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="303.0" minWidth="10.0" prefWidth="183.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="471.0" minWidth="10.0" prefWidth="408.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="471.0" minWidth="10.0" prefWidth="155.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label text="Регистрационен номер:" />
+            <TextField fx:id="regNumber" GridPane.columnIndex="1" />
+            <Label text="Марка:" GridPane.rowIndex="1" />
+            <TextField fx:id="carModel" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label text="Категория:" GridPane.rowIndex="2" />
+            <Label text="Клас:" GridPane.rowIndex="3" />
+            <ChoiceBox fx:id="categoryChoiceBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <ChoiceBox fx:id="classificationChoiceBox" prefHeight="25.0" prefWidth="310.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label text="Текущи км:" GridPane.rowIndex="4" />
+            <TextField fx:id="currentKM" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Label text="Снимка:" GridPane.rowIndex="5" />
+            <Button fx:id="choosePictureBtn" mnemonicParsing="false" onAction="#choosePicture" text="Избор на снимка" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <Label text="Пушене:" GridPane.rowIndex="6" />
+            <CheckBox fx:id="smokingCheckBox" mnemonicParsing="false" text="Да" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <Label fx:id="regNumberLabel" GridPane.columnIndex="2" />
+            <Label fx:id="carModelLabel" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <Label fx:id="categoryChoiceBoxLabel" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <Label fx:id="ClassificationChoiceBoxLabel" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+            <Label fx:id="currKMLabel" prefHeight="39.0" prefWidth="111.0" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+         </children>
+      </GridPane>
+      <Button layoutX="291.0" layoutY="418.0" mnemonicParsing="false" onAction="#addNewCar" text="Добавяне на автомобил" />
+      <ImageView fx:id="img1" fitHeight="150.0" fitWidth="269.0" layoutX="366.0" layoutY="246.0" pickOnBounds="true" preserveRatio="true" />
+      <Label fx:id="statusAdded" layoutX="354.0" layoutY="450.0" text="       " />
+      <Label fx:id="pictureLabel" layoutX="360.0" layoutY="251.0" />
+   </children>
+</AnchorPane>

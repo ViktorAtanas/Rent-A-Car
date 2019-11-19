@@ -1,5 +1,6 @@
 package rentacar.view;
 
+import javafx.stage.Stage;
 import rentacar.Operator;
 
 public class Singleton {
@@ -19,6 +20,7 @@ public class Singleton {
 	public void setLogedOperator(Operator logedOperator) {
 		this.logedOperator = logedOperator;
 	}
+
     
     
 

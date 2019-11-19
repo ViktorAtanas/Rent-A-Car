@@ -56,6 +56,37 @@ public class Category {
 	public String toString() {
 		return CategoryType;
 	}
+
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((CategoryType == null) ? 0 : CategoryType.hashCode());
+		result = prime * result + idCategory;
+		return result;
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Category other = (Category) obj;
+		if (CategoryType == null) {
+			if (other.CategoryType != null)
+				return false;
+		} else if (!CategoryType.equals(other.CategoryType))
+			return false;
+		if (idCategory != other.idCategory)
+			return false;
+		return true;
+	}
+	
 	
 	
 }

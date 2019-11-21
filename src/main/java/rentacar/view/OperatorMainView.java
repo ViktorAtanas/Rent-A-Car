@@ -21,15 +21,15 @@ import rentacar.Operator;
 public class OperatorMainView implements Initializable{
 
 	@FXML private BorderPane mainBP;
-	@FXML	AnchorPane rentCarAP= new AnchorPane();
-	@FXML	AnchorPane returnCarAP= new AnchorPane();
-	@FXML	AnchorPane newClientAP= new AnchorPane();
-	@FXML	AnchorPane newCarap= new AnchorPane();
-	@FXML	AnchorPane availableCarsAP= new AnchorPane();
-	@FXML	AnchorPane historyOfCarsAP= new AnchorPane();
-	@FXML	AnchorPane operatorsWorkAP= new AnchorPane();
-	@FXML	AnchorPane clinetRatingAP= new AnchorPane();
-	@FXML	AnchorPane statisticskAP= new AnchorPane();
+	@FXML private AnchorPane rentCarAP= new AnchorPane();
+	@FXML private AnchorPane returnCarAP= new AnchorPane();
+	@FXML private AnchorPane newClientAP= new AnchorPane();
+	@FXML private AnchorPane newCarap= new AnchorPane();
+	@FXML private AnchorPane availableCarsAP= new AnchorPane();
+	@FXML private AnchorPane historyOfCarsAP= new AnchorPane();
+	@FXML private AnchorPane operatorsWorkAP= new AnchorPane();
+	@FXML private AnchorPane clinetRatingAP= new AnchorPane();
+	@FXML private AnchorPane statisticskAP= new AnchorPane();
 	@FXML private AnchorPane mainOperatorAP;
 	
 	@Override
@@ -108,7 +108,7 @@ public class OperatorMainView implements Initializable{
 				Parent root = FXMLLoader.load(getClass().getResource("LoginView.fxml"));
 				Scene scene = new Scene(root);
 				primaryStage.setScene(scene);
-				primaryStage.getIcons().add(new Image("/photos/icon1.png"));
+				primaryStage.getIcons().add(new Image("/photos/icon11.png"));
 				primaryStage.setTitle("Коли под наем");
 				primaryStage.show();
 			} catch(Exception e) {
@@ -117,16 +117,4 @@ public class OperatorMainView implements Initializable{
 		 
 	}
 
-
-
-	
-	
-	
-
-
-	
-	
-	
-	
-	
 }

@@ -1,38 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package DataValidation;
 
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 
-/**
- *
- * @author New
- */
 public class DataValidation {
-/*
-    public static boolean textDataLength(TextField inputTextField, Label inputLabel, String validationText, String requiredLength) {
-        boolean rightDataLength = true;
-        String validationString = null;
 
-        //\b\w{8} & \ 'escapes' it.
-        if (!inputTextField.getText().matches("\\b\\w" + "{" + requiredLength + "}")) {
-            rightDataLength = false;
-            validationString = validationText;
-
-            inputLabel.setText(validationString);
-
-        }
-
-        return rightDataLength;
-        
-        
-    }
-   */ 
     
 public static boolean dataLength(TextField inputTextField, Label inputLabel, String validationText, String requiredLength) {
         boolean isDataLength = true;
@@ -47,6 +20,22 @@ public static boolean dataLength(TextField inputTextField, Label inputLabel, Str
         return isDataLength;
 
     }
+
+	public static boolean LoginValidationUser(TextField inputTextField, Label inputLabel, String validationText) {
+		boolean isAlphabet = true;
+		String validationString = null;
+
+		if (!inputTextField.getText().matches("[a-z0-9A-Z]+[^\\s-]")) {
+			isAlphabet = false;
+			validationString = validationText;
+
+		}
+		inputLabel.setText(validationString);
+
+		System.out.println(inputTextField.getText().matches("[a-z A-Z]"));
+		return isAlphabet;
+
+	}
     public static boolean textAlphabet(TextField inputTextField, Label inputLabel, String validationText) {
         boolean isAlphabet = true;
         String validationString = null;
@@ -76,18 +65,18 @@ public static boolean dataLength(TextField inputTextField, Label inputLabel, Str
         return isNumeric;
 
     }
-
-    public static boolean emailFormat(TextField inputTextField, Label inputLabel, String validationText) {
-        boolean isEmail = true;
+    
+    public static boolean textDouble(TextField inputTextField, Label inputLabel, String validationText) {
+        boolean isNumeric = true;
         String validationString = null;
 
-        if (!inputTextField.getText().matches("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.com")) {
-            isEmail = false;
+        if (!inputTextField.getText().matches("[+-]?([0-9]*[.])?[0-9]+")) {
+            isNumeric = false;
             validationString = validationText;
 
         }
         inputLabel.setText(validationString);
-        return isEmail;
+        return isNumeric;
 
     }
 
@@ -106,27 +95,18 @@ public static boolean dataLength(TextField inputTextField, Label inputLabel, Str
 
     }
 
-    //Regular Expressions: zMail: \z[0-9]{7}
+
     public static boolean textFieldIsNull(TextField inputTextField, Label inputLabel, String validationText) {
         boolean isNull = false;
         String validationString = null;
 
-        System.out.println("*******************************************************");
-
-        //point out difference between null and isEmpty() *FIND OUT WHEN TO USE NULL
         if (inputTextField.getText().isEmpty()) {
             isNull = true;
             validationString = validationText;
 
         }
-        String isEmpty = Boolean.toString(inputTextField.getText().isEmpty());
-        String nil = Boolean.toString(inputTextField.getText() == null);
-
+       
         inputLabel.setText(validationString);
-
-        System.out.println("Label Should be Set to: " + validationString);
-        System.out.println("Input TextField: " + inputTextField.getText());
-        System.out.println("Null: " + nil + " isEmpty: " + isEmpty);
 
         return isNull;
 

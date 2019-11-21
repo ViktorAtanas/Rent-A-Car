@@ -1,14 +1,15 @@
 package rentacar.view.spravki;
 
 import java.time.LocalDate;
+
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -28,18 +29,22 @@ public class AvailableCarsController {
 	@FXML private TableColumn<Car,Category> carCategoryCol;
 	@FXML private TableColumn<Car,Classification> carClassificatinCol;
 	@FXML private TableColumn<Car,Boolean> smoking;
+	@FXML private Label statusPeriod;
 	
 	@FXML private void availableCars() {
 	LocalDate startDate = dateFrom.getValue();
 	LocalDate endDate = dateTo.getValue();
-
+	
+	if(startDate!=null && endDate!=null)
+	{
+		statusPeriod.setText("");
 	Session session = rentacar.HibernateUtil.getSessionFactory().openSession();
     session.beginTransaction();
     
     Query query = session.createQuery("from Car"); 
 	ObservableList<Car> listCar = FXCollections.observableArrayList(query.list());
 
-    Query query1 = session.createQuery("from Rent where dateRent BETWEEN '"+startDate+"' AND '"+endDate+"'"); 
+		Query query1 = session.createQuery("from Rent where (dateRent BETWEEN '" + startDate + "' AND '" + endDate+ "') OR (dateReturn BETWEEN '" + startDate + "' AND '" + endDate + "') OR (dateRent < '"+startDate+"' AND dateReturn > '"+endDate+"')"); 
 	ObservableList<Rent> listRent = FXCollections.observableArrayList(query1.list());
 	
 	regNumberCol.setCellValueFactory(
@@ -50,7 +55,7 @@ public class AvailableCarsController {
     
     smoking.setCellValueFactory(
             new PropertyValueFactory<Car, Boolean>("carStatus"));
-  
+
     carCategoryCol.setCellValueFactory(
             new PropertyValueFactory<Car, Category>("category"));
     
@@ -62,7 +67,9 @@ public class AvailableCarsController {
 	}
     session.getTransaction().commit();
     carTableView.setItems(listCar);
-    }
+    }else
+		statusPeriod.setText("Въведете коректен период!");
+	}
 	
 }
 

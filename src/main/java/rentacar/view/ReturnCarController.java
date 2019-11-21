@@ -5,9 +5,11 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.util.ResourceBundle;
 
-import org.hibernate.Query;
-import org.hibernate.Session;
 
+import org.hibernate.Session;
+import org.hibernate.query.Query;
+
+import DataValidation.DataValidation;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -54,12 +56,12 @@ public class ReturnCarController implements Initializable{
 		@FXML private TableView<Rent> rentTableView;
 		@FXML private TableColumn<Rent,LocalDate> rentDayColumn;
 		@FXML private TableColumn<Rent, Car> rentCarColumn;
-		
+		ObservableList<Rent> list1;
 		public void updateRentListView() {
 			Session session = rentacar.HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
 			Query query = session.createQuery("from Rent s where s.completedStatus='0'");
-			ObservableList<Rent> list1 = FXCollections.observableArrayList(query.list());
+			list1 = FXCollections.observableArrayList(query.list());
 			 session.getTransaction().commit();
 			
 			rentDayColumn.setCellValueFactory(
@@ -98,9 +100,21 @@ public class ReturnCarController implements Initializable{
 			updateRentListView();
 
 		}
+		
+		@FXML private Label rentChoosenLabel;
+		@FXML private Label correctKMLabel;
+		@FXML private Label retrunStatus;
 
 		@FXML private void returnCarBtn() {
 			
+			boolean numericKM = DataValidation.textNumeric(currKM, correctKMLabel, "Въведете коректни данни 0-9");
+			if(rentTableView.getSelectionModel().getSelectedItem()==null)
+			rentChoosenLabel.setText("Изберете наемане");
+			else
+				rentChoosenLabel.setText("");
+			
+			if(numericKM && rentTableView.getSelectionModel().getSelectedItem()!=null)
+			{
 			Double newKm = Double.parseDouble(currKM.getText().toString());
 			Rent rent= rentTableView.getSelectionModel().getSelectedItem();
 			Car rentedCar = rent.getCar();
@@ -112,18 +126,29 @@ public class ReturnCarController implements Initializable{
 			
 			//Price Calculating
 			Double totalPrice = p.getDays()*rentedCar.getClassification().getPricePerDay()+rentedCar.getClassification().getPricePerKM()*traveledKm;
-			if(today!=rent.getDateReturn())
-				totalPrice+=extra.getDays()*rentedCar.getClassification().getPricePerDay();//Dobavqne na uslovie za zakusnqlo vrushtane
+			
+			if(rent.getDateReturn().isBefore(today)) {
+				totalPrice+=extra.getDays()*rentedCar.getClassification().getPricePerDay();
+				totalPrice+=totalPrice*0.08;  //8% vrushtane sled sroka
+				rent.setDateReturn(today);
+				rent.getClient().setClientRating(rent.getClient().getClientRating()-5);
+				System.out.println("ZAKUSNEJE");
+			}
 			if(problemsCheckBox.isSelected()) {
 				totalPrice+=100;
+				rent.getClient().setClientRating(rent.getClient().getClientRating()-3);
+				System.out.println("PROBLEM");
 			}
 			
 			rent.setTraveledKM(traveledKm);
 			rent.setTotalPrice(totalPrice);
 			rent.setCompletedStatus(true);
+
+			rent.getClient().setClientRating(rent.getClient().getClientRating()-5);
 			
 			rentedCar.setCarStatus(false);
 			rentedCar.setCurrKM(newKm);
+	
 			
 			String returnProblems = "Върната без проблем";
 			if(problemsCheckBox.isSelected())
@@ -136,9 +161,12 @@ public class ReturnCarController implements Initializable{
 		     session.update(rent);
 		     session.update(rentedCar);
 		     session.save(returnOpis);
+		     list1.remove(rent);
 		     session.getTransaction().commit();
 			
-			
+			currKM.clear();
+			clientPin.clear();
+			}
 			
 
 			

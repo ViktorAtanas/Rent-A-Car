@@ -24,5 +24,6 @@
       <Label layoutX="202.0" layoutY="100.0" text="От" />
       <Label layoutX="406.0" layoutY="100.0" text="До" />
       <Button layoutX="612.0" layoutY="96.0" mnemonicParsing="false" onAction="#availableCars" text="Справка" />
+      <Label fx:id="statusPeriod" alignment="CENTER" layoutX="256.0" layoutY="453.0" prefHeight="17.0" prefWidth="301.0" />
    </children>
 </AnchorPane>

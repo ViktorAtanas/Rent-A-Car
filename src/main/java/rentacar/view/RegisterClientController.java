@@ -30,9 +30,9 @@ public class RegisterClientController {
 			String cDrLicence = clDrLicence.getText().toString();
 			
 			 boolean numericPin = DataValidation.textNumeric(clPin, pinLabel, "ЕГН може да съдаржа само 0 - 9");
-			 boolean alphabetName = DataValidation.textAlphabet(clNames, namesLabel, "Имена може да съдържа само  а - я");
+			 boolean alphabetName = DataValidation.textAlphabet(clNames, namesLabel, "Може да съдържа само  а - я");
 			 boolean addressNotNull = DataValidation.textFieldIsNull(clAddress, adressLabel, "Моля, въведете адрес");
-			 boolean numericDrLicNUmb = DataValidation.textNumeric(clDrLicence, drLicNumbLabel, "Намер на Ш.К само 0 - 9");
+			 boolean numericDrLicNUmb = DataValidation.textNumeric(clDrLicence, drLicNumbLabel, "Номер на Ш.К само 0 - 9");
 			 
 			 if(numericPin && alphabetName && !addressNotNull && numericDrLicNUmb)
 			 {

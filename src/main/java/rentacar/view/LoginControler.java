@@ -1,16 +1,15 @@
 package rentacar.view;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 import org.hibernate.Session;
 
+import DataValidation.DataValidation;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -31,6 +30,9 @@ public class LoginControler implements Initializable {
 	@FXML	private TextField textUsername;
 	@FXML	private PasswordField textPassword;
 	@FXML 	private Label loginStatus;
+	
+	@FXML private Label loginVerUser;
+	@FXML private Label loginVerPass;
 
 	@FXML	private void login() throws IOException {
 
@@ -89,12 +91,30 @@ public class LoginControler implements Initializable {
 				
 				logedOperator.setStatusLogin(true);
 				session.update(logedOperator);
-				session.getTransaction().commit();
+				
 							 
 			} else
 				loginStatus.setText("Wrong username or password!");
+			session.getTransaction().commit();
 		}
 
+		 boolean LoginValidationUserr = DataValidation.LoginValidationUser(textUsername, loginVerUser, "  ");
+		 boolean LoginValidationPasss = DataValidation.textFieldIsNull(textPassword, loginVerPass, "  ");
+		
+		if (!LoginValidationUserr)
+			loginVerUser.setText("Напишете коректно потребителско име");
+		else
+			loginVerUser.setText("");
+		
+		if (LoginValidationPasss)
+			loginVerPass.setText("Моля напишете парола");
+		else
+		  loginVerPass.setText("");
+		
+		
+		
+		
+		
 		
 	}
 
@@ -115,7 +135,7 @@ public class LoginControler implements Initializable {
 		session.beginTransaction();
 	    session.getTransaction().commit();
 	      
-		Image image = new Image("/photos/rc1.png");
+		Image image = new Image("/photos/carLogin.png");
 		carLoginImg.setImage(image);
 	}
 	

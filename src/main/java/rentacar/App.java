@@ -1,9 +1,5 @@
 package rentacar;
 
-
-
-import org.hibernate.Session;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

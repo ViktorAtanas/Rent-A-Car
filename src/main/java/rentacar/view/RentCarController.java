@@ -6,23 +6,27 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
-
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
+import javafx.util.Callback;
 import rentacar.Car;
 import rentacar.Category;
 import rentacar.Classification;
@@ -30,195 +34,219 @@ import rentacar.Client;
 import rentacar.Operator;
 import rentacar.Opis;
 import rentacar.Rent;
-import javafx.collections.transformation.FilteredList;
-import javafx.collections.transformation.SortedList;
 
 public class RentCarController implements Initializable {
 
-	@FXML private TextField clientPIN;
-	@FXML private TextField carSpecs;
-	@FXML private TableView<Car> cartableView;
-	@FXML private TableView<Client>clientTableView;
-	@FXML private DatePicker returnDate;
-	@FXML private ImageView carImg;
+	@FXML	private TextField clientPIN;
+	@FXML	private TextField carSpecs;
+	@FXML	private TableView<Car> cartableView;
+	@FXML	private TableView<Client> clientTableView;
+	@FXML	private DatePicker returnDate;
+	@FXML	private ImageView carImg;
 
-	@FXML private TableColumn<Client,String> clientNames;
-	@FXML private TableColumn<Client, String> clientPin;
-	@FXML private TableColumn<Client, String> clientDriveLic;
-	@FXML private TableColumn<Client, String> clientAddress;
-	
+	@FXML	private TableColumn<Client, String> clientNames;
+	@FXML	private TableColumn<Client, String> clientPin;
+	@FXML	private TableColumn<Client, String> clientDriveLic;
+	@FXML	private TableColumn<Client, String> clientAddress;
+	@FXML	private TableColumn<Client, Double> clientrating;
+
 	public void showClientInfo() {
-		
+
 		Session session = rentacar.HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        Query query = session.createQuery("from Client");
+		session.beginTransaction();
+		Query query = session.createQuery("from Client");
 		ObservableList<Client> clientList = FXCollections.observableArrayList(query.list());
-        
-        session.getTransaction().commit();
-        
-        clientNames.setCellValueFactory(
-                new PropertyValueFactory<Client, String>("clientName"));
-        clientPin.setCellValueFactory(
-                new PropertyValueFactory<Client, String>("clientPIN"));
-        clientAddress.setCellValueFactory(
-                new PropertyValueFactory<Client, String>("clientAddress"));       
-        clientDriveLic.setCellValueFactory(
-                new PropertyValueFactory<Client, String>("clientDriveLicenceNumber"));   
-        
-        
-        clientTableView.setItems(clientList);
-        FilteredList<Client> filteredData = new FilteredList<>(clientList, p -> true);
-        
 
+		session.getTransaction().commit();
 
-        clientPIN.textProperty().addListener((observable, oldValue, newValue) -> {
-            filteredData.setPredicate(person -> {
-                if (newValue == null || newValue.isEmpty()) {
-                    return true;
-                }
-                
-                String lowerCaseFilter = newValue.toLowerCase();
-                
-                if (person.getClientName().toLowerCase().contains(lowerCaseFilter)) {
-                    return true; 
-                } else if (person.getClientPIN().toLowerCase().contains(lowerCaseFilter)) {
-                    return true; 
-                }
-                return false;
-            });
-        });
-    
-        SortedList<Client> sortedData = new SortedList<>(filteredData);
-        sortedData.comparatorProperty().bind(clientTableView.comparatorProperty());
-        clientTableView.setItems(sortedData); 
-    	
+		clientNames.setCellValueFactory(new PropertyValueFactory<Client, String>("clientName"));
+		clientPin.setCellValueFactory(new PropertyValueFactory<Client, String>("clientPIN"));
+		clientAddress.setCellValueFactory(new PropertyValueFactory<Client, String>("clientAddress"));
+		clientDriveLic.setCellValueFactory(new PropertyValueFactory<Client, String>("clientDriveLicenceNumber"));
+		clientrating.setCellValueFactory(new PropertyValueFactory<Client, Double>("clientRating"));
+		clientTableView.setRowFactory(tv -> new TableRow<Client>() {
+		    @Override
+		    public void updateItem(Client item, boolean empty) {
+		        super.updateItem(item, empty) ;
+		        if (item == null) {
+		            setStyle("");
+		        } else if (item.getClientRating()<45) {
+		            setStyle("-fx-background-color: tomato;");
+		        } else {
+		            setStyle("");
+		        }
+		    }
+		});
+		
+		clientTableView.setItems(clientList);
+		FilteredList<Client> filteredData = new FilteredList<>(clientList, p -> true);
 
+		clientPIN.textProperty().addListener((observable, oldValue, newValue) -> {
+			filteredData.setPredicate(person -> {
+				if (newValue == null || newValue.isEmpty()) {
+					return true;
+				}
+
+				String lowerCaseFilter = newValue.toLowerCase();
+
+				if (person.getClientName().toLowerCase().contains(lowerCaseFilter)) {
+					return true;
+				} else if (person.getClientPIN().toLowerCase().contains(lowerCaseFilter)) {
+					return true;
+				}
+				return false;
+			});
+		});
+
+		SortedList<Client> sortedData = new SortedList<>(filteredData);
+		sortedData.comparatorProperty().bind(clientTableView.comparatorProperty());
+		clientTableView.setItems(sortedData);
 
 	}
-	
-		@FXML TableColumn<Car,String> regNumberCol;
-		@FXML TableColumn<Car,String> carModelCol;
-		@FXML TableColumn<Car,Category> carCategoryCol;
-		@FXML TableColumn<Car,Classification> carClassificatinCol;
-		@FXML TableColumn<Car,Boolean> smoking;
-	 
-	
+
+	@FXML
+	TableColumn<Car, String> regNumberCol;
+	@FXML
+	TableColumn<Car, String> carModelCol;
+	@FXML
+	TableColumn<Car, Category> carCategoryCol;
+	@FXML
+	TableColumn<Car, Classification> carClassificatinCol;
+	@FXML
+	TableColumn<Car, Boolean> smoking;
+	ObservableList<Car> list2;
 	public void initCarTableView() {
 		Session session = rentacar.HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        
-		Query query2 = session.createQuery("from Car c where c.carStatus='0'"); 
-		ObservableList<Car> list2 = FXCollections.observableArrayList(query2.list());
-        session.getTransaction().commit();
-        
-        regNumberCol.setCellValueFactory(
-                new PropertyValueFactory<Car, String>("regNumber"));
+		session.beginTransaction();
 
-        carModelCol.setCellValueFactory(
-                new PropertyValueFactory<Car, String>("carModel"));
-        
-        smoking.setCellValueFactory(
-                new PropertyValueFactory<Car, Boolean>("carStatus"));
-      
-        carCategoryCol.setCellValueFactory(
-                new PropertyValueFactory<Car, Category>("category"));
-        
-        carClassificatinCol.setCellValueFactory(
-                new PropertyValueFactory<Car, Classification>("classification"));
-        
-        cartableView.setItems(list2);
-        
-        	//NACHALO NA FILTRACIQ
-        FilteredList<Car> filteredData = new FilteredList<>(list2, p -> true);
+		Query query2 = session.createQuery("from Car c where c.carStatus='0'");
+		list2 = FXCollections.observableArrayList(query2.list());
+		session.getTransaction().commit();
 
-            carSpecs.textProperty().addListener((observable, oldValue, newValue) -> {
-                filteredData.setPredicate(person -> {
-                    if (newValue == null || newValue.isEmpty()) {
-                        return true;
-                    }
-                    
-                    String lowerCaseFilter = newValue.toLowerCase();
-                    
-                    if (person.getCarModel().toLowerCase().contains(lowerCaseFilter)) {
-                        return true;
-                    } else if (person.getCategory().getCategoryType().toLowerCase().contains(lowerCaseFilter)) {
-                        return true; 
-                    }
-                    return false; 
-                });
-            });
-        
-            SortedList<Car> sortedData = new SortedList<>(filteredData);
-            sortedData.comparatorProperty().bind(cartableView.comparatorProperty());
-            cartableView.setItems(sortedData);   
+		regNumberCol.setCellValueFactory(new PropertyValueFactory<Car, String>("regNumber"));
+
+		carModelCol.setCellValueFactory(new PropertyValueFactory<Car, String>("carModel"));
+
+		smoking.setCellValueFactory(new PropertyValueFactory<Car, Boolean>("carStatus"));
+
+		carCategoryCol.setCellValueFactory(new PropertyValueFactory<Car, Category>("category"));
+
+		carClassificatinCol.setCellValueFactory(new PropertyValueFactory<Car, Classification>("classification"));
+
+		cartableView.setItems(list2);
+
+		// NACHALO NA FILTRACIQ
+		FilteredList<Car> filteredData = new FilteredList<>(list2, p -> true);
+
+		carSpecs.textProperty().addListener((observable, oldValue, newValue) -> {
+			filteredData.setPredicate(person -> {
+				if (newValue == null || newValue.isEmpty()) {
+					return true;
+				}
+
+				String lowerCaseFilter = newValue.toLowerCase();
+
+				if (person.getCarModel().toLowerCase().contains(lowerCaseFilter)) {
+					return true;
+				} else if (person.getCategory().getCategoryType().toLowerCase().contains(lowerCaseFilter)) {
+					return true;
+				}
+				return false;
+			});
+		});
+
+		SortedList<Car> sortedData = new SortedList<>(filteredData);
+		sortedData.comparatorProperty().bind(cartableView.comparatorProperty());
+		cartableView.setItems(sortedData);
 	}
-
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		initCarTableView();
 		showClientInfo();
-		
-       /* clientPin.setCellFactory(col -> {
-            TableCell<Client, String> cell = new TableCell<Client, String>() {
-                @Override
-                public void updateItem(String item, boolean empty) {
-                    super.updateItem(item, empty);
-         
-                    if (item.equals("9802068729")) {
-                        this.setBackgroundColor(Color.RED);setStyle("-fx-background-color: tomato;"); 
-                    } else {
-                        this.setBackgroundColor(Color.GREEN);
-                    }
-                }
-            };
-            return cell;
-        });*/
+
+		/*
+		 * clientPin.setCellFactory(col -> { TableCell<Client, String> cell = new
+		 * TableCell<Client, String>() {
+		 * 
+		 * @Override public void updateItem(String item, boolean empty) {
+		 * super.updateItem(item, empty);
+		 * 
+		 * if (item.equals("9802068729")) {
+		 * this.setBackgroundColor(Color.RED);setStyle("-fx-background-color: tomato;");
+		 * } else { this.setBackgroundColor(Color.GREEN); } } }; return cell; });
+		 */
 	}
-	
+
 	public void imageViewUpdate() throws MalformedURLException {
-        try
-        {
-		Car car1 = cartableView.getSelectionModel().getSelectedItem();
-		File file = new File(car1.getPhotoPath());
-		 String localUrl = file.toURI().toURL().toString();	          
-         Image image = new Image(localUrl);
-         carImg.setImage(image);
-        }
-         catch(NullPointerException e)
-         {
-             System.out.print("NullPointerException caught");
-         }
+		try {
+			Car car1 = cartableView.getSelectionModel().getSelectedItem();
+			File file = new File(car1.getPhotoPath());
+			String localUrl = file.toURI().toURL().toString();
+			Image image = new Image(localUrl);
+			carImg.setImage(image);
+		} catch (NullPointerException e) {
+			System.out.print("NullPointerException caught");
+		}
 	}
-	
+
+	@FXML
+	private Label clientCheck;
+	@FXML
+	private Label carCheck;
+	@FXML
+	private Label dateCheck;
+
 	public void rentBtn() throws MalformedURLException {
-		LocalDate rtrnDate= returnDate.getValue();
-		Operator operator = Singleton.getInstance().getLogedOperator();
-		Car car1 = cartableView.getSelectionModel().getSelectedItem();
-		Client choosenClient = clientTableView.getSelectionModel().getSelectedItem();
-		
-		 Rent rent =new Rent(LocalDate.now(), rtrnDate, 0, 0, operator, car1, choosenClient);
-		 Opis opis = new Opis(car1.getCurrKM(), LocalDate.now(), "Otdadena bez problem", car1);
 
+		if (clientTableView.getSelectionModel().getSelectedItem() == null)
+			clientCheck.setText("Изберете клиент");
+		else
+			clientCheck.setText("");
+		if (cartableView.getSelectionModel().getSelectedItem() == null)
+			carCheck.setText("Изберете кола");
+		else
+			carCheck.setText("");
 
-		 Session session1 = rentacar.HibernateUtil.getSessionFactory().openSession();
-	     session1.beginTransaction();
-	     Car carCheck = (Car) session1.createQuery("from Car c where c.idCar='"+car1.getIdCar()+"'").uniqueResult();
-		 session1.getTransaction().commit();
-	     
-		 Session session = rentacar.HibernateUtil.getSessionFactory().openSession();
-	     session.beginTransaction();
-	     if(!carCheck.isCarStatus())
-	     {
-	    	 session.save(rent);
-	    	 session.save(opis);
-	    	 car1.setCarStatus(true);
-	    	 session.update(car1);
-	    	 
-	    	 System.out.println("Car not available");
-	     }
-		 session.getTransaction().commit();
+		if (returnDate.getValue() == null)
+			dateCheck.setText("Изберете дата на връщане");
+		else
+			dateCheck.setText("");
 
+		if (clientTableView.getSelectionModel().getSelectedItem() != null
+				&& cartableView.getSelectionModel().getSelectedItem() != null && returnDate.getValue() != null) {
+			LocalDate rtrnDate = returnDate.getValue();
+			Operator operator = Singleton.getInstance().getLogedOperator();
+			Car car1 = cartableView.getSelectionModel().getSelectedItem();
+			Client choosenClient = clientTableView.getSelectionModel().getSelectedItem();
+
+			Rent rent = new Rent(LocalDate.now(), rtrnDate, 0, 0, operator, car1, choosenClient);
+			Opis opis = new Opis(car1.getCurrKM(), LocalDate.now(), "Otdadena bez problem", car1);
+
+			Session session1 = rentacar.HibernateUtil.getSessionFactory().openSession();
+			session1.beginTransaction();
+			Car carCheck = (Car) session1.createQuery("from Car c where c.idCar='" + car1.getIdCar() + "'")
+					.uniqueResult();
+			session1.getTransaction().commit();
+
+			Session session = rentacar.HibernateUtil.getSessionFactory().openSession();
+			session.beginTransaction();
+			if (!carCheck.isCarStatus()) {
+				session.save(rent);
+				session.save(opis);
+				car1.setCarStatus(true);
+				list2.remove(car1);
+				session.update(car1);
+
+				System.out.println("Car not available");
+			}
+			session.getTransaction().commit();
+			returnDate.getEditor().clear();
+			cartableView.getSelectionModel().clearSelection();
+			clientTableView.getSelectionModel().clearSelection();
+			clientPIN.clear();
+			carSpecs.clear();
+		}
 	}
-	
+
 }

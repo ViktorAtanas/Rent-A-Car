@@ -29,9 +29,7 @@ public class StatisticsController implements Initializable{
 	@FXML private DatePicker toDate;
 	@FXML private ChoiceBox<String> filterChoiseBox;
 	
-	CategoryAxis xAxis    = new CategoryAxis();
-	NumberAxis yAxis = new NumberAxis();
-	@FXML BarChart  barChart = new BarChart(xAxis, yAxis);
+
 
 	
 		@Override
@@ -43,10 +41,14 @@ public class StatisticsController implements Initializable{
 
 	}
 	
-
+		@FXML private BarChart<String,Number>  barChart;
+		@FXML private CategoryAxis xAxis;
+		@FXML private NumberAxis yAxis;
 	public void initBarChart() {
 		LocalDate startDate = fromDate.getValue();
 		LocalDate endDate = toDate.getValue();
+
+		yAxis.setLabel("Брой"); 
 		
 		Session session = rentacar.HibernateUtil.getSessionFactory().openSession();
 	    session.beginTransaction();
@@ -77,7 +79,6 @@ public class StatisticsController implements Initializable{
 							{
 								numCategory.set(index, k);
 								k++;
-								System.out.println(car.getCategory().getCategoryType()+" "+ category.getCategoryType()+" K: "+k);
 							}				
 						}					
 				    k=1;
@@ -118,7 +119,8 @@ public class StatisticsController implements Initializable{
 					p++;
 				}
 
-				barChart.setData(FXCollections.observableArrayList(dataSeries2));
+				//barChart.setData(FXCollections.observableArrayList(dataSeries2));
+				barChart.getData().add(dataSeries2);
 				
 			}
 			

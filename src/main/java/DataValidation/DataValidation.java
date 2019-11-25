@@ -32,7 +32,7 @@ public static boolean dataLength(TextField inputTextField, Label inputLabel, Str
 		}
 		inputLabel.setText(validationString);
 
-		System.out.println(inputTextField.getText().matches("[a-z A-Z]"));
+		//System.out.println(inputTextField.getText().matches("[a-z A-Z]"));
 		return isAlphabet;
 
 	}
@@ -47,7 +47,7 @@ public static boolean dataLength(TextField inputTextField, Label inputLabel, Str
         }
         inputLabel.setText(validationString);
 
-        System.out.println(inputTextField.getText().matches("[a-z A-Z]"));
+        //System.out.println(inputTextField.getText().matches("[a-z A-Z]"));
         return isAlphabet;
 
     }

@@ -1,5 +1,6 @@
 package rentacar.view;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -10,62 +11,101 @@ import DataValidation.DataValidation;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import rentacar.Category;
-import rentacar.Classification;
+import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 import rentacar.Company;
 import rentacar.Operator;
 
 public class AdminMainViewController implements Initializable {
-
-	// Add Company Tab
-	@FXML
-	private TextField companyName;
-	@FXML
-	private TextField companyAddress;
-	@FXML
-	private Label companyNameLabel;
-	@FXML
-	private Label companyAddressLabel;
-	@FXML
-	private Label addCompanyStatus;
-
-	@FXML
-	private void addCompany() {
-
-		boolean nameCheck = DataValidation.textFieldIsNull(companyName, companyNameLabel, "Въведете име на фирма!");
-		boolean addressCheck = DataValidation.textFieldIsNull(companyAddress, companyAddressLabel,
-				"Въведете адрес на фирма!");
-
-		if (!nameCheck && !addressCheck) {
-			String companyName1 = companyName.getText().toString();
-			String companyAddress1 = companyAddress.getText().toString();
-
-			Session session = rentacar.HibernateUtil.getSessionFactory().openSession();
-			session.beginTransaction();
-			Company companyCheck = (Company) session
-					.createQuery("from Company c where c.companyName='" + companyName1 + "'").uniqueResult();
-			if (companyCheck == null) {
-				Company cmpn = new Company(companyName1, companyAddress1);
-				session.save(cmpn);
-				addCompanyStatus.setText("Успешно добавена фирма");
-				companyName.clear();
-				companyAddress.clear();
-
-			} else
-				addCompanyStatus.setText("Вече съществува такава фирма!");
-
-			session.getTransaction().commit();
-
-		}
+	//start
+	@FXML private AnchorPane newClientAP= new AnchorPane();
+	@FXML private AnchorPane newCarap= new AnchorPane();
+	@FXML private AnchorPane addCategroyClassAP= new AnchorPane();
+	@FXML private AnchorPane addClientCompanyAP;
+	@FXML private AnchorPane availableCarsAP= new AnchorPane();
+	@FXML private AnchorPane historyOfCarsAP= new AnchorPane();
+	@FXML private AnchorPane operatorsWorkAP= new AnchorPane();
+	@FXML private AnchorPane clinetRatingAP= new AnchorPane();
+	@FXML private AnchorPane statisticskAP= new AnchorPane();
+	@FXML private BorderPane mainBP;
+	
+	@FXML	public void NewCarMenuItem() throws IOException {	
+		newCarap.getChildren().clear();
+		newCarap.getChildren().add(FXMLLoader.load(getClass().getResource("RegisterCarView.fxml")));
+		mainBP.setCenter(newCarap);
 	}
-
-	// Add operator Tab
+	@FXML	public void NewClientMenuItem() throws IOException {	
+		newClientAP.getChildren().clear();
+		newClientAP.getChildren().add(FXMLLoader.load(getClass().getResource("RegisterClientView.fxml")));
+		mainBP.setCenter(newClientAP);
+	}
+	@FXML	public void addCategoryClassMenuItem() throws IOException {	
+		addCategroyClassAP.getChildren().clear();
+		addCategroyClassAP.getChildren().add(FXMLLoader.load(getClass().getResource("createCategoryClassification.fxml")));
+		mainBP.setCenter(addCategroyClassAP);
+	}
+	
+	@FXML	public void addClientCompanyMenuItem() throws IOException {	
+		mainBP.setCenter(addClientCompanyAP);
+	}
+	
+	
+	@FXML	public void availableCarsMenuItem() throws IOException {		
+		availableCarsAP.getChildren().clear();
+		availableCarsAP.getChildren().add(FXMLLoader.load(getClass().getResource("spravki/AvailableCarsView.fxml")));
+		mainBP.setCenter(availableCarsAP);
+	}
+	@FXML	public void historyOfCarsMenuItem() throws IOException {		
+		historyOfCarsAP.getChildren().clear();
+		historyOfCarsAP.getChildren().add(FXMLLoader.load(getClass().getResource("spravki/HistoryOfCarsView.fxml")));
+		mainBP.setCenter(historyOfCarsAP);
+	}
+	@FXML	public void operatorsWorkMenuItem() throws IOException {		
+		operatorsWorkAP.getChildren().clear();
+		operatorsWorkAP.getChildren().add(FXMLLoader.load(getClass().getResource("spravki/OperatorsWorkView.fxml")));
+		mainBP.setCenter(operatorsWorkAP);
+	}
+	
+	@FXML	public void clientRatingMenuItem() throws IOException {		
+		clinetRatingAP.getChildren().clear();
+		clinetRatingAP.getChildren().add(FXMLLoader.load(getClass().getResource("spravki/ClientRatingView.fxml")));
+		mainBP.setCenter(clinetRatingAP);
+	}
+	@FXML	public void statisticsMenuItem() throws IOException {		
+		statisticskAP.getChildren().clear();
+		statisticskAP.getChildren().add(FXMLLoader.load(getClass().getResource("spravki/StatisticsView.fxml")));
+		mainBP.setCenter(statisticskAP);
+	}
+	
+	@FXML	public void logout() throws IOException {		
+		 Stage stage = (Stage) mainBP.getScene().getWindow();
+		 stage.close();
+	
+		Stage primaryStage = new Stage();		
+			try {			
+				Parent root = FXMLLoader.load(getClass().getResource("LoginView.fxml"));
+				Scene scene = new Scene(root);
+				primaryStage.setScene(scene);
+				primaryStage.getIcons().add(new Image("/photos/icon11.png"));
+				primaryStage.setTitle("Коли под наем");
+				primaryStage.show();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		 
+	}
+	
 	@FXML
 	private TextField operatorUsername;
 	@FXML
@@ -76,13 +116,13 @@ public class AdminMainViewController implements Initializable {
 	private ComboBox<Company> companyComboBox;
 	@FXML
 	private Button addOperatorBtn;
-
+	private ObservableList<Company> list;
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
 
 		Session session = rentacar.HibernateUtil.getSessionFactory().openSession();
 		Query query = session.createQuery("from Company");
-		ObservableList<Company> list = FXCollections.observableArrayList(query.list());
+		list = FXCollections.observableArrayList(query.list());
 		companyComboBox.getItems().setAll(list);
 	}
 
@@ -128,84 +168,49 @@ public class AdminMainViewController implements Initializable {
 		 }
 		 
 	}
+	// Add Company Tab
+	@FXML
+	private TextField companyName;
+	@FXML
+	private TextField companyAddress;
+	@FXML
+	private Label companyNameLabel;
+	@FXML
+	private Label companyAddressLabel;
+	@FXML
+	private Label addCompanyStatus;
 
-	// Add Classification
 	@FXML
-	private TextField typeClassification;
-	@FXML
-	private TextField classificationPricePerDay;
-	@FXML
-	private TextField classificationPricePerKM;
-	@FXML
-	private Label labelClassT;
-	@FXML
-	private Label labelClassP;
-	@FXML
-	private Label labelClassK;
-	@FXML
-	private Label labelClassSucc;
+	private void addCompany() {
 
-	public void addClassification() {
-		
-		boolean alphabetName = DataValidation.textAlphabet(typeClassification, labelClassT,
-				"Моля, въведете коректен тип клас");
-		boolean numericPriceDay = DataValidation.textDouble(classificationPricePerDay, labelClassP,
-				"Моля, въведете коректно число");
-		boolean numericPriceKM = DataValidation.textDouble(classificationPricePerKM, labelClassK,
-				"Моля, въведете коректно число");
-		if (alphabetName && numericPriceDay && numericPriceKM) {
-			String classificationType = typeClassification.getText().toString();
-			Double pricePerDay = Double.parseDouble(classificationPricePerDay.getText().toString());
-			Double pricePerKM = Double.parseDouble(classificationPricePerKM.getText().toString());
+		boolean nameCheck = DataValidation.textFieldIsNull(companyName, companyNameLabel, "Въведете име на фирма!");
+		boolean addressCheck = DataValidation.textFieldIsNull(companyAddress, companyAddressLabel,
+				"Въведете адрес на фирма!");
+
+		if (!nameCheck && !addressCheck) {
+			String companyName1 = companyName.getText().toString();
+			String companyAddress1 = companyAddress.getText().toString();
+
 			Session session = rentacar.HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
-			Classification classificationCheck = (Classification) session
-					.createQuery("from Classification c where c.classificationType='" + classificationType + "'").uniqueResult();
-			if (classificationCheck == null) {
-			Classification cl = new Classification(classificationType, pricePerDay, pricePerKM);
-			session.save(cl);
+			Company companyCheck = (Company) session
+					.createQuery("from Company c where c.companyName='" + companyName1 + "'").uniqueResult();
+			if (companyCheck == null) {
+				Company cmpn = new Company(companyName1, companyAddress1);
+				session.save(cmpn);
+				addCompanyStatus.setText("Успешно добавена фирма");
+				companyName.clear();
+				companyAddress.clear();
+				list.add(cmpn);
+				companyComboBox.getItems().setAll(list);
+
+			} else
+				addCompanyStatus.setText("Вече съществува такава фирма!");
+
 			session.getTransaction().commit();
-			labelClassSucc.setText("Успешно добавен клас");
-			typeClassification.clear();
-			classificationPricePerDay.clear();
-			classificationPricePerKM.clear();
-			}
-			else
-				labelClassSucc.setText("Вече съществува такъв клас!");
-			session.getTransaction().commit();
-		} 
-		
+
+		}
 	}
-
-	// Add Category
-	@FXML
-	private TextField typeCategory;
-	@FXML
-	private Label categoryLabel;
-
-	public void addCategory() {
-		boolean categoryCheck = DataValidation.textFieldIsNull(typeCategory, categoryLabel, "Моля, въведете категория!");
-
-		if (!categoryCheck) {
-			String categoryTypeString = typeCategory.getText().toString();
-			Session session = rentacar.HibernateUtil.getSessionFactory().openSession();
-			session.beginTransaction();
-			Category categoryCheckDubl = (Category) session
-					.createQuery("from Category c where CategoryType='" + categoryTypeString + "'").uniqueResult();
-			if(categoryCheckDubl==null)
-			{
-			Category ctgr = new Category(categoryTypeString);
-			session.save(ctgr);
-			categoryLabel.setText("Успешно въведена категория!");
-			typeCategory.clear();
-			
-			}			
-			else
-			categoryLabel.setText("Вече съществува такава категория!");
-			session.getTransaction().commit();
-			
-		} 
-
-	}
+	
 
 }

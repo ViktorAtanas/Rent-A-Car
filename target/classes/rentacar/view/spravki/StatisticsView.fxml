@@ -18,7 +18,7 @@
       <DatePicker fx:id="toDate" layoutX="428.0" layoutY="59.0" />
       <Label layoutX="353.0" layoutY="97.0" text="Филтър:" />
       <ChoiceBox fx:id="filterChoiseBox" layoutX="397.0" layoutY="93.0" prefHeight="25.0" prefWidth="121.0" />
-      <BarChart fx:id="barChart" layoutX="161.0" layoutY="155.0" prefHeight="331.0" prefWidth="494.0">
+      <BarChart fx:id="barChart" animated="false" layoutX="161.0" layoutY="155.0" prefHeight="331.0" prefWidth="494.0">
         <xAxis>
           <CategoryAxis side="BOTTOM" fx:id="xAxis" />
         </xAxis>
@@ -27,5 +27,6 @@
         </yAxis>
       </BarChart>
       <Button layoutX="527.0" layoutY="93.0" mnemonicParsing="false" onAction="#initBarChart" prefHeight="25.0" prefWidth="75.0" text="Покажи" />
+      <Label fx:id="statusPeriod" layoutX="441.0" layoutY="129.0" prefHeight="17.0" prefWidth="161.0" />
    </children>
 </AnchorPane>

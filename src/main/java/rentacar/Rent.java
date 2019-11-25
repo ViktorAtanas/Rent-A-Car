@@ -131,13 +131,13 @@ public class Rent {
 
 	@Override
 	public String toString() {
-		return "Rent [idRent=" + idRent + ", dateRent=" + dateRent + ", dateReturn=" + dateReturn + ", traveledKM="
-				+ traveledKM + ", totalPrice=" + totalPrice + ", operator=" + operator + ", car=" + car + ", client="
-				+ client + "]\n";
+		return "Наемане: "+ idRent +" Клиент:"+client.getClientPIN();
 	}
 	
 	
-	
+	/*		return "Rent " + idRent + ", dateRent=" + dateRent + ", dateReturn=" + dateReturn + ", traveledKM="
+				+ traveledKM + ", totalPrice=" + totalPrice + ", operator=" + operator + ", car=" + car + ", client="
+				+ client + "]\n";*/
 
 	
 	

@@ -15,7 +15,7 @@
       <DatePicker fx:id="todate" layoutX="427.0" layoutY="76.0" />
       <Label layoutX="200.0" layoutY="80.0" text="ОТ:" />
       <Label layoutX="407.0" layoutY="80.0" text="ДО:" />
-      <Label layoutX="330.0" layoutY="122.0" text="Автомобил" />
+      <Label layoutX="200.0" layoutY="122.0" text="Автомобил" />
       <TableView fx:id="tabRent" layoutX="89.0" layoutY="195.0" prefHeight="200.0" prefWidth="657.0">
         <columns>
           <TableColumn prefWidth="164.0" text="Наемане в период">
@@ -27,7 +27,8 @@
             <TableColumn fx:id="tabCar" prefWidth="249.0" text="Автомобил" />
         </columns>
       </TableView>
-      <Button layoutX="218.0" layoutY="118.0" mnemonicParsing="false" onAction="#History" text="Справка" />
-      <ComboBox fx:id="carComboBox" layoutX="439.0" layoutY="118.0" prefWidth="150.0" />
+      <Button layoutX="539.0" layoutY="118.0" mnemonicParsing="false" onAction="#History" text="Справка" />
+      <ComboBox fx:id="carComboBox" layoutX="268.0" layoutY="118.0" prefHeight="25.0" prefWidth="264.0" />
+      <Label fx:id="statusPeriod" alignment="CENTER" layoutX="308.0" layoutY="431.0" prefHeight="17.0" prefWidth="185.0" />
    </children>
 </AnchorPane>

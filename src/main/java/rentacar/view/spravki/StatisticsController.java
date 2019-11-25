@@ -20,6 +20,7 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import rentacar.Car;
 import rentacar.Category;
 import rentacar.Classification;
@@ -38,32 +39,36 @@ public class StatisticsController implements Initializable{
 		filterChoiseBox.getItems().add("Клас");
 		filterChoiseBox.getItems().add("Категория");
 		filterChoiseBox.getSelectionModel().selectFirst();
-
+		yAxis.setLabel("Брой"); 
 	}
 	
 		@FXML private BarChart<String,Number>  barChart;
 		@FXML private CategoryAxis xAxis;
 		@FXML private NumberAxis yAxis;
+		@FXML private Label statusPeriod;
+		
 	public void initBarChart() {
 		LocalDate startDate = fromDate.getValue();
 		LocalDate endDate = toDate.getValue();
 
-		yAxis.setLabel("Брой"); 
 		
+		if(startDate!=null && endDate!=null)
+		{
+						statusPeriod.setText("");
 		Session session = rentacar.HibernateUtil.getSessionFactory().openSession();
 	    session.beginTransaction();
-	    Query<Car> query1 = session.createQuery("Select s.car from Rent s where s.dateRent BETWEEN '"+startDate+"' AND '"+endDate+"'"); 
+		Query query1 = session.createQuery("Select s.car from Rent s where (dateRent BETWEEN '" + startDate + "' AND '" + endDate+ "') OR (dateReturn BETWEEN '" + startDate + "' AND '" + endDate + "') OR (dateRent < '"+startDate+"' AND dateReturn > '"+endDate+"')"); 
 	    ObservableList<Car> listCar = FXCollections.observableArrayList(query1.list());
 
 		session.getTransaction().commit();
 		
 		barChart.getData().clear();
-		
+		//filterChoiseBox.getSelectionModel().getSelectedItem()=="Клас"
 		int p=0;
-			if(filterChoiseBox.getSelectionModel().getSelectedItem()=="Клас")
+			if(filterChoiseBox.getSelectionModel().getSelectedIndex()==0)
 			{
-				p=0;
 
+				p=0;
 				XYChart.Series<String, Number> dataSeries1 = new XYChart.Series<String, Number>();
 				dataSeries1.setName("Клас");
 				Set<Category> categoriesList = new HashSet<Category>(); 
@@ -91,7 +96,7 @@ public class StatisticsController implements Initializable{
 
 				barChart.getData().add(dataSeries1);
 			}
-			else if (filterChoiseBox.getSelectionModel().getSelectedItem()=="Категория")
+			else if (filterChoiseBox.getSelectionModel().getSelectedIndex()==1)
 			{
 				p=0;
 				XYChart.Series<String, Number> dataSeries2 = new XYChart.Series<String, Number>();
@@ -119,14 +124,14 @@ public class StatisticsController implements Initializable{
 					p++;
 				}
 
-				//barChart.setData(FXCollections.observableArrayList(dataSeries2));
 				barChart.getData().add(dataSeries2);
 				
 			}
 			
 			
 			
-			
+	    }else
+			statusPeriod.setText("Въведете коректен период!");
 			
 			
 	}

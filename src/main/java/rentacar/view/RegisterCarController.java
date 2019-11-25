@@ -94,7 +94,7 @@ public class RegisterCarController implements Initializable {
 			String localUrl = file.toURI().toURL().toString();
 			Image image = new Image(localUrl);
 			img1.setImage(image);
-
+			pictureLabel.setText("");
 		} else {
 			System.out.println("Not choosed image");
 		}
@@ -119,8 +119,6 @@ public class RegisterCarController implements Initializable {
 		boolean numericCurrKm = DataValidation.textNumeric(currentKM, currKMLabel, "КМ може да съдаржа само 0 - 9");
 		if (fileAsString.equals(""))
 			pictureLabel.setText("Изберете снимка");
-		else
-			pictureLabel.setText("");
 		boolean categoryCheck = categoryChoiceBox.getSelectionModel().isEmpty();
 		boolean classCheck = classificationChoiceBox.getSelectionModel().isEmpty();
 		if (categoryCheck)

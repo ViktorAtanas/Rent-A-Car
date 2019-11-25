@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 
 import DataValidation.DataValidation;
@@ -33,6 +34,7 @@ public class LoginControler implements Initializable {
 	
 	@FXML private Label loginVerUser;
 	@FXML private Label loginVerPass;
+	final static Logger logger = Logger.getLogger(LoginControler.class);
 
 	@FXML	private void login() throws IOException {
 
@@ -56,14 +58,21 @@ public class LoginControler implements Initializable {
 			adminMainStage.setScene(scene);
 			adminMainStage.show();
 			stage.close();
+			logger.info("Admin logged in");
+	    	
 		} else {
 			Session session = rentacar.HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
 			logedOperator = (Operator) session
 					.createQuery(
-							"from Operator s where s.userName='" + username + "' AND s.password='" + password + "'")
+							"from Operator s where s.userName='" + username + "' AND s.password='" + password + "' AND s.statusLogin='0'")
 					.uniqueResult();			
 			if (logedOperator != null) {
+				logger.info("Operator "+logedOperator.getUserName()+" logged in.");
+		    	
+				logedOperator.setStatusLogin(true);
+				session.update(logedOperator);
+				session.getTransaction().commit();
 				FXMLLoader loader = new FXMLLoader();
 				loader.setLocation(App.class.getResource("view/OperatorMainView.fxml"));
 				BorderPane OperatorMainView = loader.load();
@@ -88,14 +97,13 @@ public class LoginControler implements Initializable {
 				
 				Singleton.getInstance().setLogedOperator(logedOperator);
 				stage.close();	
-				
-				logedOperator.setStatusLogin(true);
-				session.update(logedOperator);
-				
 							 
 			} else
-				loginStatus.setText("Wrong username or password!");
-			session.getTransaction().commit();
+			{
+				loginStatus.setText("Грешно потребителско име или парола");
+				session.getTransaction().commit();
+			}
+			
 		}
 
 		 boolean LoginValidationUserr = DataValidation.LoginValidationUser(textUsername, loginVerUser, "  ");
@@ -111,10 +119,7 @@ public class LoginControler implements Initializable {
 		else
 		  loginVerPass.setText("");
 		
-		
-		
-		
-		
+
 		
 	}
 
@@ -132,8 +137,6 @@ public class LoginControler implements Initializable {
 		// TODO Auto-generated method stub
 
 		Session session = rentacar.HibernateUtil.getSessionFactory().openSession();
-		session.beginTransaction();
-	    session.getTransaction().commit();
 	      
 		Image image = new Image("/photos/carLogin.png");
 		carLoginImg.setImage(image);

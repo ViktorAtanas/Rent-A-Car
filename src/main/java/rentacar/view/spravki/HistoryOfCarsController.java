@@ -15,6 +15,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -31,25 +32,30 @@ public class HistoryOfCarsController implements Initializable {
 @FXML private TableColumn<Rent,Client> tabClient;
 @FXML private TableColumn<Rent,LocalDate> tab1Rent;
 @FXML private TableColumn<Rent,LocalDate> tab2Rent;
-
+@FXML private Label statusPeriod;
 @FXML private void History(){
 	
 	LocalDate startDate = fromdate.getValue();
 	LocalDate endDate = todate.getValue();
 	Car carOp =(Car) carComboBox.getValue();
 	
+	if(startDate!=null && endDate!=null)
+	{
 	Session session1 = rentacar.HibernateUtil.getSessionFactory().openSession();
     session1.beginTransaction();
     
     
-    Query query = session1.createQuery("from Rent r where Car_idCar='"+ carOp.getIdCar() +"' AND r.dateRent BETWEEN '"+startDate+"' AND '"+endDate+"'"); 
+    Query query = session1.createQuery("from Rent r where Car_idCar='"+ carOp.getIdCar() +"' AND ( (dateRent BETWEEN '" + startDate + "' AND '" + endDate+ "') OR (dateReturn BETWEEN '" + startDate + "' AND '" + endDate + "') OR (dateRent < '"+startDate+"' AND dateReturn > '"+endDate+"'))"); 
 	ObservableList<Rent> listRent = FXCollections.observableArrayList(query.list());
 	
 	  session1.getTransaction().commit();
 	  tabRent.setItems(listRent);
    
 	
-	
+	   }else
+			statusPeriod.setText("Въведете коректен период!");
+		
+		
 	
 }
 

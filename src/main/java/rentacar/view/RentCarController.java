@@ -1,11 +1,13 @@
 package rentacar.view;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
@@ -14,7 +16,9 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
@@ -25,6 +29,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.util.Callback;
 import rentacar.Car;
@@ -49,6 +54,13 @@ public class RentCarController implements Initializable {
 	@FXML	private TableColumn<Client, String> clientDriveLic;
 	@FXML	private TableColumn<Client, String> clientAddress;
 	@FXML	private TableColumn<Client, Double> clientrating;
+	@FXML	private AnchorPane apRent;
+	@FXML	private void ChangeAPtoReturn() throws IOException
+	{
+		apRent.getChildren().clear();
+		apRent.getChildren().add(FXMLLoader.load(getClass().getResource("ReturnCarView.fxml")));
+	}
+	
 
 	public void showClientInfo() {
 
@@ -64,13 +76,13 @@ public class RentCarController implements Initializable {
 		clientAddress.setCellValueFactory(new PropertyValueFactory<Client, String>("clientAddress"));
 		clientDriveLic.setCellValueFactory(new PropertyValueFactory<Client, String>("clientDriveLicenceNumber"));
 		clientrating.setCellValueFactory(new PropertyValueFactory<Client, Double>("clientRating"));
-		clientTableView.setRowFactory(tv -> new TableRow<Client>() {
+		clientTableView.setRowFactory(t -> new TableRow<Client>() {
 		    @Override
 		    public void updateItem(Client item, boolean empty) {
 		        super.updateItem(item, empty) ;
 		        if (item == null) {
 		            setStyle("");
-		        } else if (item.getClientRating()<45) {
+		        } else if (item.getClientRating()<39) {
 		            setStyle("-fx-background-color: tomato;");
 		        } else {
 		            setStyle("");
@@ -160,22 +172,11 @@ public class RentCarController implements Initializable {
 		cartableView.setItems(sortedData);
 	}
 
+	final static Logger logger = Logger.getLogger(OperatorMainView.class);
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		initCarTableView();
 		showClientInfo();
-
-		/*
-		 * clientPin.setCellFactory(col -> { TableCell<Client, String> cell = new
-		 * TableCell<Client, String>() {
-		 * 
-		 * @Override public void updateItem(String item, boolean empty) {
-		 * super.updateItem(item, empty);
-		 * 
-		 * if (item.equals("9802068729")) {
-		 * this.setBackgroundColor(Color.RED);setStyle("-fx-background-color: tomato;");
-		 * } else { this.setBackgroundColor(Color.GREEN); } } }; return cell; });
-		 */
 	}
 
 	public void imageViewUpdate() throws MalformedURLException {
@@ -185,9 +186,13 @@ public class RentCarController implements Initializable {
 			String localUrl = file.toURI().toURL().toString();
 			Image image = new Image(localUrl);
 			carImg.setImage(image);
+			carCheck.setText("");
 		} catch (NullPointerException e) {
 			System.out.print("NullPointerException caught");
 		}
+	}
+	public void selectedClient() {
+		clientCheck.setText("");
 	}
 
 	@FXML
@@ -237,8 +242,6 @@ public class RentCarController implements Initializable {
 				car1.setCarStatus(true);
 				list2.remove(car1);
 				session.update(car1);
-
-				System.out.println("Car not available");
 			}
 			session.getTransaction().commit();
 			returnDate.getEditor().clear();
@@ -248,5 +251,7 @@ public class RentCarController implements Initializable {
 			carSpecs.clear();
 		}
 	}
-
+	
+	
+	
 }

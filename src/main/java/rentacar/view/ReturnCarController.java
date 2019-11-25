@@ -16,6 +16,7 @@ import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -35,7 +36,7 @@ public class ReturnCarController implements Initializable{
 	@FXML CheckBox problemsCheckBox;
 	@FXML TextField problemsTextField;
 	@FXML Label problemsLabel;
-
+	
 	
 		@FXML public void enableProblemsField() {
 	
@@ -56,6 +57,9 @@ public class ReturnCarController implements Initializable{
 		@FXML private TableView<Rent> rentTableView;
 		@FXML private TableColumn<Rent,LocalDate> rentDayColumn;
 		@FXML private TableColumn<Rent, Car> rentCarColumn;
+		@FXML private TableColumn<Rent, Integer> rentIdRentColumn;
+		@FXML private TableColumn<Rent, Client> rentClientColumn;
+		
 		ObservableList<Rent> list1;
 		public void updateRentListView() {
 			Session session = rentacar.HibernateUtil.getSessionFactory().openSession();
@@ -68,6 +72,10 @@ public class ReturnCarController implements Initializable{
 	                new PropertyValueFactory<Rent, LocalDate>("dateRent"));
 			rentCarColumn.setCellValueFactory(
 	                new PropertyValueFactory<Rent, Car>("car"));
+			rentIdRentColumn.setCellValueFactory(
+	                new PropertyValueFactory<Rent, Integer>("idRent"));
+			rentClientColumn.setCellValueFactory(
+	                new PropertyValueFactory<Rent, Client>("client"));
 			
 			rentTableView.setItems(list1);
 			
@@ -132,19 +140,16 @@ public class ReturnCarController implements Initializable{
 				totalPrice+=totalPrice*0.08;  //8% vrushtane sled sroka
 				rent.setDateReturn(today);
 				rent.getClient().setClientRating(rent.getClient().getClientRating()-5);
-				System.out.println("ZAKUSNEJE");
 			}
 			if(problemsCheckBox.isSelected()) {
 				totalPrice+=100;
 				rent.getClient().setClientRating(rent.getClient().getClientRating()-3);
-				System.out.println("PROBLEM");
 			}
 			
 			rent.setTraveledKM(traveledKm);
 			rent.setTotalPrice(totalPrice);
 			rent.setCompletedStatus(true);
 
-			rent.getClient().setClientRating(rent.getClient().getClientRating()-5);
 			
 			rentedCar.setCarStatus(false);
 			rentedCar.setCurrKM(newKm);

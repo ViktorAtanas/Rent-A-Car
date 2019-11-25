@@ -3,22 +3,33 @@ package rentacar.view;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
+import java.util.Timer;
+import java.util.TimerTask;
 
+import org.controlsfx.control.Notifications;
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 
+import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import rentacar.Operator;
+import rentacar.Rent;
 
-public class OperatorMainView implements Initializable{
+public class OperatorMainView implements Initializable {
 
 	@FXML private BorderPane mainBP;
 	@FXML private AnchorPane rentCarAP= new AnchorPane();
@@ -31,11 +42,43 @@ public class OperatorMainView implements Initializable{
 	@FXML private AnchorPane clinetRatingAP= new AnchorPane();
 	@FXML private AnchorPane statisticskAP= new AnchorPane();
 	@FXML private AnchorPane mainOperatorAP;
+
+
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
+		try {
+			rentCarMenuItem();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		new Notification().start();
 
+        /*TimerTask timerTask = new TimerTask() {
+
+            @Override
+            public void run() {
+        		LocalDate today = LocalDate.now();
+        		Session session = rentacar.HibernateUtil.getSessionFactory().openSession();
+        		session.beginTransaction();
+        		Query query = session.createQuery("from Rent r where r.completedStatus='0' AND r.dateReturn<='"+today+"'");
+        		ObservableList<Rent> rentList = FXCollections.observableArrayList(query.list());
+        		session.getTransaction().commit();
+
+        		 Platform.runLater(()->{
+                     Notifications.create().title("Изтекли наемания").text(rentList.toString()).position(Pos.TOP_RIGHT).showInformation();
+                 });
+            }
+        };
+
+        Timer timer = new Timer("MyTimer");//create a new Timer
+
+        timer.scheduleAtFixedRate(timerTask, 30, 3000);
+        
+    	*/
+    	
 	}
 	
 
@@ -88,9 +131,7 @@ public class OperatorMainView implements Initializable{
 		statisticskAP.getChildren().add(FXMLLoader.load(getClass().getResource("spravki/StatisticsView.fxml")));
 		mainBP.setCenter(statisticskAP);
 	}
-	@FXML	public void homeMenuItem() throws IOException {		
-		mainBP.setCenter(mainOperatorAP);
-	}
+
 	
 	@FXML	public void logout() throws IOException {		
 		 Stage stage = (Stage) mainBP.getScene().getWindow();
@@ -117,4 +158,22 @@ public class OperatorMainView implements Initializable{
 		 
 	}
 
+}
+
+class Notification extends Thread{
+	
+	public void run() {
+		
+		LocalDate today = LocalDate.now();
+		Session session = rentacar.HibernateUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		Query query = session.createQuery("from Rent r where r.completedStatus='0' AND r.dateReturn<='"+today+"'");
+		ObservableList<Rent> rentList = FXCollections.observableArrayList(query.list());
+		session.getTransaction().commit();
+
+		 Platform.runLater(()->{
+             Notifications.create().title("Изтекли наемания").text(rentList.toString()).position(Pos.TOP_RIGHT).showInformation();
+         });
+	}
+	
 }

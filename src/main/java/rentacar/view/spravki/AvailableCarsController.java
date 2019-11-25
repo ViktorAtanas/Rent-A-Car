@@ -44,7 +44,7 @@ public class AvailableCarsController {
     Query query = session.createQuery("from Car"); 
 	ObservableList<Car> listCar = FXCollections.observableArrayList(query.list());
 
-		Query query1 = session.createQuery("from Rent where (dateRent BETWEEN '" + startDate + "' AND '" + endDate+ "') OR (dateReturn BETWEEN '" + startDate + "' AND '" + endDate + "') OR (dateRent < '"+startDate+"' AND dateReturn > '"+endDate+"')"); 
+	Query query1 = session.createQuery("from Rent where (dateRent BETWEEN '" + startDate + "' AND '" + endDate+ "') OR (dateReturn BETWEEN '" + startDate + "' AND '" + endDate + "') OR (dateRent < '"+startDate+"' AND dateReturn > '"+endDate+"')"); 
 	ObservableList<Rent> listRent = FXCollections.observableArrayList(query1.list());
 	
 	regNumberCol.setCellValueFactory(

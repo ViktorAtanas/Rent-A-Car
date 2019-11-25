@@ -15,15 +15,18 @@
       <DatePicker fx:id="dateTo" layoutX="427.0" layoutY="76.0" />
       <Label layoutX="200.0" layoutY="80.0" text="ОТ:" />
       <Label layoutX="407.0" layoutY="80.0" text="ДО:" />
-      <ComboBox fx:id="operatorsComboBox" layoutX="264.0" layoutY="118.0" prefHeight="25.0" prefWidth="338.0" />
+      <ComboBox fx:id="operatorsComboBox" layoutX="264.0" layoutY="118.0" prefHeight="25.0" prefWidth="265.0" />
       <Label layoutX="200.0" layoutY="122.0" text="Оператор:" />
-      <TableView fx:id="rentTableView" layoutX="101.0" layoutY="198.0" prefHeight="200.0" prefWidth="582.0">
+      <TableView fx:id="rentTableView" layoutX="65.0" layoutY="160.0" prefHeight="252.0" prefWidth="725.0">
         <columns>
-          <TableColumn fx:id="rentID" prefWidth="123.0" text="Наемане №:" />
-          <TableColumn fx:id="rentClient" prefWidth="244.0" text="Клиент" />
-            <TableColumn fx:id="rentCar" prefWidth="214.0" text="Кола" />
+          <TableColumn fx:id="rentID" prefWidth="40.0" text="№:" />
+            <TableColumn fx:id="rentDate" prefWidth="134.0" text="Дата" />
+            <TableColumn fx:id="rentClient" prefWidth="260.0" text="Клиент" />
+            <TableColumn fx:id="rentCar" prefWidth="287.0" text="Кола" />
         </columns>
       </TableView>
-      <Button layoutX="361.0" layoutY="156.0" mnemonicParsing="false" onAction="#OperatorsAndTheirWork" text="Справка" />
+      <Button layoutX="541.0" layoutY="118.0" mnemonicParsing="false" onAction="#OperatorsAndTheirWork" text="Справка" />
+      <Label fx:id="statusPeriod" alignment="CENTER" layoutX="295.0" layoutY="469.0" prefHeight="17.0" prefWidth="224.0" />
+      <Label fx:id="statusOperatorChoosed" layoutX="319.0" layoutY="143.0" prefHeight="17.0" prefWidth="156.0" />
    </children>
 </AnchorPane>

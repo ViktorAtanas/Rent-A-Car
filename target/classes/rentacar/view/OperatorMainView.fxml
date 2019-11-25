@@ -15,7 +15,6 @@
         <menus>
           <Menu mnemonicParsing="false" text="Файл">
             <items>
-                  <MenuItem mnemonicParsing="false" onAction="#homeMenuItem" text="Начало" />
                   <MenuItem mnemonicParsing="false" onAction="#rentCarMenuItem" text="Наемане на автомобил" />
                   <MenuItem mnemonicParsing="false" onAction="#returnMenuItem" text="Връщане на автомобил" />
               <MenuItem mnemonicParsing="false" onAction="#logout" text="Изход от профил" />

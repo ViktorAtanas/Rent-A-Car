@@ -51,16 +51,18 @@ public class RegisterClientController {
 					 clStatusAdd.setText("Съществуващ клиент!");
 				 }
 				 
-				
+				session.getTransaction().commit();
 				 
 					clPin.clear(); clNames.clear(); clAddress.clear();clDrLicence.clear();
+					
 			 }
 			 else {
 				 clStatusAdd.setText("Грешни полета!");
+				 
 			 }
 			
 			 
-	 session.getTransaction().commit();
+
 		}
 
 }

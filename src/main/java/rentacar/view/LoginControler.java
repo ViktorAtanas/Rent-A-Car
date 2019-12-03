@@ -3,6 +3,7 @@ package rentacar.view;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
@@ -92,6 +93,7 @@ public class LoginControler implements Initializable {
 					 loged.setStatusLogin(false);
 					 session1.update(loged);
 					 session1.getTransaction().commit();
+					 logger.info("Operator "+loged.getUserName()+"-"+loged.getNameOfOperator()+" logged out");
 			    });
 				
 				

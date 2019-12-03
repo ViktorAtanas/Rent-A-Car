@@ -49,7 +49,7 @@ public class OperatorsWorkController implements Initializable {
 			
 			if(startDate!=null && endDate!=null && !operatorsComboBox.getSelectionModel().isEmpty())
 			{
-				statusPeriod.setText("nasko");
+				statusPeriod.setText("");
 			Session session = rentacar.HibernateUtil.getSessionFactory().openSession();
 		    session.beginTransaction();
 		    

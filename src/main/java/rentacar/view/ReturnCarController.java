@@ -3,29 +3,45 @@ package rentacar.view;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.Calendar;
 import java.util.ResourceBundle;
+import java.util.Timer;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
-
+import org.apache.log4j.Logger;
+import org.controlsfx.control.Notifications;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
 import DataValidation.DataValidation;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 import rentacar.Car;
 import rentacar.Client;
+import rentacar.Operator;
 import rentacar.Opis;
 import rentacar.Rent;
 
@@ -36,7 +52,7 @@ public class ReturnCarController implements Initializable{
 	@FXML CheckBox problemsCheckBox;
 	@FXML TextField problemsTextField;
 	@FXML Label problemsLabel;
-	
+	final static Logger logger = Logger.getLogger(ReturnCarController.class);
 	
 		@FXML public void enableProblemsField() {
 	
@@ -56,6 +72,7 @@ public class ReturnCarController implements Initializable{
 		private Client cl1;
 		@FXML private TableView<Rent> rentTableView;
 		@FXML private TableColumn<Rent,LocalDate> rentDayColumn;
+		@FXML private TableColumn<Rent,LocalDate> returnDayColumn;
 		@FXML private TableColumn<Rent, Car> rentCarColumn;
 		@FXML private TableColumn<Rent, Integer> rentIdRentColumn;
 		@FXML private TableColumn<Rent, Client> rentClientColumn;
@@ -70,6 +87,8 @@ public class ReturnCarController implements Initializable{
 			
 			rentDayColumn.setCellValueFactory(
 	                new PropertyValueFactory<Rent, LocalDate>("dateRent"));
+			returnDayColumn.setCellValueFactory(
+	                new PropertyValueFactory<Rent, LocalDate>("dateReturn"));
 			rentCarColumn.setCellValueFactory(
 	                new PropertyValueFactory<Rent, Car>("car"));
 			rentIdRentColumn.setCellValueFactory(
@@ -99,19 +118,92 @@ public class ReturnCarController implements Initializable{
 	        SortedList<Rent> sortedData = new SortedList<>(filteredData);
 	        sortedData.comparatorProperty().bind(rentTableView.comparatorProperty());
 	        rentTableView.setItems(sortedData); 
-		
+	        LocalDate today = LocalDate.now();
+	        rentTableView.setRowFactory(t -> new TableRow<Rent>() {
+			    @Override
+			    public void updateItem(Rent item, boolean empty) {
+			        super.updateItem(item, empty) ;
+			        if (item == null) {
+			            setStyle("");
+			        } else if (item.getDateReturn().isBefore(today)) {
+			            setStyle("-fx-background-color: salmon;");
+			        } else if (item.getDateReturn().isEqual(today)){
+			            setStyle("-fx-background-color: #ffad99;");
+			        }
+			    }
+			});
 		}
 
+		@FXML private Button notRed;
+		ObservableList<Rent> notificationList;
 		@Override
 		public void initialize(URL location, ResourceBundle resources) {
 			// TODO Auto-generated method stub
 			updateRentListView();
+			
+			
+			
+			Runnable task = new Runnable() {
+				@Override
+				public void run() {
+					LocalDate today = LocalDate.now();
+	        		Session session = rentacar.HibernateUtil.getSessionFactory().openSession();
+	        		session.beginTransaction();
+	        		Query query = session.createQuery("from Rent r where r.completedStatus='0' AND r.dateReturn='"+today+"'");
+	        		notificationList = FXCollections.observableArrayList(query.list());
+	        		session.getTransaction().commit();
+	        		if(!notificationList.isEmpty()) {
+	        			notRed.setVisible(true);
+	        			notRed.setStyle("-fx-background-color: salmon;");
+	        		}				
+	        		else
+						notRed.setVisible(false);
+				}
+			};
 
+		ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
+		scheduler.scheduleAtFixedRate(task, 3, 30, TimeUnit.SECONDS);
+		
+		}
+		@FXML private void notRedBtn() {
+			 Label secondLabel = new Label("Изтичащи наемания днес: "+ notificationList.toString());
+			  /*StackPane secondaryLayout = new StackPane();
+              secondaryLayout.getChildren().add(secondLabel);
+
+              Scene secondScene = new Scene(secondaryLayout, 300, 100);
+              Stage newWindow = new Stage();
+              newWindow.setTitle("Известие");
+              newWindow.setScene(secondScene);
+              newWindow.show();*/
+			 
+			 Alert alert = new Alert(AlertType.INFORMATION);
+			 alert.setTitle("Известие");
+			 alert.setHeaderText(null);
+			 alert.setContentText("Изтичащи наемания днес: "+notificationList.toString());
+			 alert.showAndWait();
 		}
 		
 		@FXML private Label rentChoosenLabel;
 		@FXML private Label correctKMLabel;
 		@FXML private Label retrunStatus;
+		
+		public static  double calcPrice(Car rentedCar,Rent rent,double traveledKm, boolean problems) {
+			LocalDate today = LocalDate.now();
+			Period p = Period.between(rent.getDateRent(),today);
+			
+			Double totalPrice = p.getDays()*rentedCar.getClassification().getPricePerDay()+rentedCar.getClassification().getPricePerKM()*traveledKm;
+			if(rent.getDateReturn().isBefore(today)) {
+				totalPrice+=totalPrice*0.08;  //8% vrushtane sled sroka
+				rent.setDateReturn(today);
+				rent.getClient().setClientRating(rent.getClient().getClientRating()-5);
+			}
+			if(problems) {
+				totalPrice+=50;
+				rent.getClient().setClientRating(rent.getClient().getClientRating()-3);
+			}
+			return totalPrice;
+		}
+		
 
 		@FXML private void returnCarBtn() {
 			
@@ -129,10 +221,12 @@ public class ReturnCarController implements Initializable{
 			LocalDate today = LocalDate.now();
 			
 			Double traveledKm = newKm - rentedCar.getCurrKM();
+
+			
+			/*
+			//Price Calculating
 			Period p = Period.between(rent.getDateRent(),rent.getDateReturn());
 			Period extra = Period.between(rent.getDateReturn(),today);
-			
-			//Price Calculating
 			Double totalPrice = p.getDays()*rentedCar.getClassification().getPricePerDay()+rentedCar.getClassification().getPricePerKM()*traveledKm;
 			
 			if(rent.getDateReturn().isBefore(today)) {
@@ -145,15 +239,15 @@ public class ReturnCarController implements Initializable{
 				totalPrice+=100;
 				rent.getClient().setClientRating(rent.getClient().getClientRating()-3);
 			}
+			*/
+			Double totalPrice=calcPrice(rentedCar, rent,traveledKm,problemsCheckBox.isSelected());
 			
 			rent.setTraveledKM(traveledKm);
 			rent.setTotalPrice(totalPrice);
 			rent.setCompletedStatus(true);
-
 			
 			rentedCar.setCarStatus(false);
 			rentedCar.setCurrKM(newKm);
-	
 			
 			String returnProblems = "Върната без проблем";
 			if(problemsCheckBox.isSelected())
@@ -168,15 +262,14 @@ public class ReturnCarController implements Initializable{
 		     session.save(returnOpis);
 		     list1.remove(rent);
 		     session.getTransaction().commit();
-			
+			Operator operator = Singleton.getInstance().getLogedOperator();
+		    logger.info("Client "+rent.getClient().getClientName()+" "+rent.getClient().getClientPIN()+" returned car "+rentedCar+" to operator "+operator.getUserName());
 			currKM.clear();
 			clientPin.clear();
+			problemsTextField.clear();
+			
 			}
 			
-
-			
-
 		}
-
 
 }

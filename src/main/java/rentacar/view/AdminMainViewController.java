@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
@@ -39,6 +40,7 @@ public class AdminMainViewController implements Initializable {
 	@FXML private AnchorPane clinetRatingAP= new AnchorPane();
 	@FXML private AnchorPane statisticskAP= new AnchorPane();
 	@FXML private BorderPane mainBP;
+	final static Logger logger = Logger.getLogger(AdminMainViewController.class);
 	
 	@FXML	public void NewCarMenuItem() throws IOException {	
 		newCarap.getChildren().clear();
@@ -103,7 +105,7 @@ public class AdminMainViewController implements Initializable {
 			} catch(Exception e) {
 				e.printStackTrace();
 			}
-		 
+		logger.info("Admin logged out");
 	}
 	
 	@FXML

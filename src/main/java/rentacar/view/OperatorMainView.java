@@ -4,10 +4,18 @@ package rentacar.view;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
+import java.util.Calendar;
 import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
+import org.apache.log4j.Logger;
 import org.controlsfx.control.Notifications;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -21,7 +29,6 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -42,9 +49,8 @@ public class OperatorMainView implements Initializable {
 	@FXML private AnchorPane clinetRatingAP= new AnchorPane();
 	@FXML private AnchorPane statisticskAP= new AnchorPane();
 	@FXML private AnchorPane mainOperatorAP;
+	final static Logger logger = Logger.getLogger(OperatorMainView.class);
 
-
-	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
@@ -54,9 +60,12 @@ public class OperatorMainView implements Initializable {
 			e.printStackTrace();
 		}
 		
-		new Notification().start();
+		//new Notification().start();
+		// Thread thread = new Notification();
+		// thread.start();
+		 
 
-        /*TimerTask timerTask = new TimerTask() {
+        TimerTask timerTask = new TimerTask() {
 
             @Override
             public void run() {
@@ -73,15 +82,68 @@ public class OperatorMainView implements Initializable {
             }
         };
 
-        Timer timer = new Timer("MyTimer");//create a new Timer
-
+       /* Timer timer = new Timer("MyTimer");
         timer.scheduleAtFixedRate(timerTask, 30, 3000);
         
     	*/
-    	
+		
+
+		Runnable task = new Runnable() {
+			@Override
+			public void run() {
+				LocalDate today = LocalDate.now();
+        		Session session = rentacar.HibernateUtil.getSessionFactory().openSession();
+        		session.beginTransaction();
+        		Query query = session.createQuery("from Rent r where r.completedStatus='0' AND r.dateReturn<'"+today+"'");
+        		ObservableList<Rent> rentList = FXCollections.observableArrayList(query.list());
+        		session.getTransaction().commit();
+        		
+				 Platform.runLater(()->{
+                     Notifications.create().title("Изтекли наемания").text(rentList.toString()).position(Pos.BOTTOM_LEFT).showInformation();
+                 });
+        		
+			}
+		};
+    	/*
+	    Executor e = Executors.newSingleThreadExecutor();
+	    e.execute(task);*/
+		 
+		 
+		 ////
+		/*Timer timer = new Timer();
+		 Thread myThread = new Notification();
+		 Calendar date = Calendar.getInstance();
+		 date.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+		 date.set(Calendar.HOUR, 15);
+		 date.set(Calendar.MINUTE, 21);
+		 date.set(Calendar.SECOND, 0);
+		 date.set(Calendar.MILLISECOND, 0);
+		 timer.schedule(
+		   new SampleTask (myThread),date.getTime(), 1000 * 60 * 60 * 24);*/
+		
+		
+	 	Thread myThread = new Notification();
+		long delay = ChronoUnit.MILLIS.between(LocalTime.now(), LocalTime.of(10, 50, 01));
+
+		ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+		scheduler.schedule(task, delay, TimeUnit.MILLISECONDS);
+		
+		/*long delay2 = ChronoUnit.MILLIS.between(LocalTime.now(), LocalTime.of(10, 50, 30));
+		ScheduledExecutorService scheduler2 = Executors.newScheduledThreadPool(1);
+		scheduler2.schedule(myThread, delay2, TimeUnit.MILLISECONDS);
+		//scheduler.scheduleAtFixedRate(task, delay, 10000, TimeUnit.MILLISECONDS );*/
+		
+		/*Calendar today = Calendar.getInstance();
+		today.set(Calendar.HOUR_OF_DAY, 10);
+		today.set(Calendar.MINUTE, 44);
+		today.set(Calendar.SECOND, 0);
+
+		// every night at 2am you run your task
+		Timer timer = new Timer();
+		timer.schedule(timerTask, today.getTime(), TimeUnit.MILLISECONDS.convert(1, TimeUnit.DAYS));*/
 	}
 	
-
+	
 	@FXML	public void rentCarMenuItem() throws IOException {	
 		rentCarAP.getChildren().clear();
 		rentCarAP.getChildren().add(FXMLLoader.load(getClass().getResource("RentCarView.fxml")));
@@ -155,7 +217,8 @@ public class OperatorMainView implements Initializable {
 			} catch(Exception e) {
 				e.printStackTrace();
 			}
-		 
+			
+		 logger.info("Operator "+loged.getUserName()+"-"+loged.getNameOfOperator()+" logged out");
 	}
 
 }
@@ -167,13 +230,14 @@ class Notification extends Thread{
 		LocalDate today = LocalDate.now();
 		Session session = rentacar.HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
-		Query query = session.createQuery("from Rent r where r.completedStatus='0' AND r.dateReturn<='"+today+"'");
+		Query<Rent> query = session.createQuery("from Rent r where r.completedStatus='0' AND r.dateReturn='"+today+"'");
 		ObservableList<Rent> rentList = FXCollections.observableArrayList(query.list());
 		session.getTransaction().commit();
-
+		//if(!rentList.isEmpty())
 		 Platform.runLater(()->{
-             Notifications.create().title("Изтекли наемания").text(rentList.toString()).position(Pos.TOP_RIGHT).showInformation();
+             Notifications.create().title("Изтичащи наемания").text(rentList.toString()).position(Pos.TOP_LEFT).showInformation();
          });
 	}
 	
 }
+

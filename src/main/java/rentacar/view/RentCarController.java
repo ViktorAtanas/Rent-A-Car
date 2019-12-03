@@ -18,10 +18,9 @@ import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
+import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
@@ -30,8 +29,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
-import javafx.util.Callback;
 import rentacar.Car;
 import rentacar.Category;
 import rentacar.Classification;
@@ -48,7 +45,7 @@ public class RentCarController implements Initializable {
 	@FXML	private TableView<Client> clientTableView;
 	@FXML	private DatePicker returnDate;
 	@FXML	private ImageView carImg;
-
+	final static Logger logger = Logger.getLogger(RentCarController.class);
 	@FXML	private TableColumn<Client, String> clientNames;
 	@FXML	private TableColumn<Client, String> clientPin;
 	@FXML	private TableColumn<Client, String> clientDriveLic;
@@ -83,7 +80,7 @@ public class RentCarController implements Initializable {
 		        if (item == null) {
 		            setStyle("");
 		        } else if (item.getClientRating()<39) {
-		            setStyle("-fx-background-color: tomato;");
+		            setStyle("-fx-background-color: salmon;");
 		        } else {
 		            setStyle("");
 		        }
@@ -115,7 +112,7 @@ public class RentCarController implements Initializable {
 		clientTableView.setItems(sortedData);
 
 	}
-
+	
 	@FXML
 	TableColumn<Car, String> regNumberCol;
 	@FXML
@@ -172,11 +169,19 @@ public class RentCarController implements Initializable {
 		cartableView.setItems(sortedData);
 	}
 
-	final static Logger logger = Logger.getLogger(OperatorMainView.class);
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		initCarTableView();
 		showClientInfo();
+		returnDate.setDayCellFactory(picker -> new DateCell() {
+	        public void updateItem(LocalDate date, boolean empty) {
+	            super.updateItem(date, empty);
+	            LocalDate today = LocalDate.now();
+
+	            setDisable(empty || date.compareTo(today) < 0 );
+	        }
+	    });
 	}
 
 	public void imageViewUpdate() throws MalformedURLException {
@@ -225,8 +230,8 @@ public class RentCarController implements Initializable {
 			Car car1 = cartableView.getSelectionModel().getSelectedItem();
 			Client choosenClient = clientTableView.getSelectionModel().getSelectedItem();
 
-			Rent rent = new Rent(LocalDate.now(), rtrnDate, 0, 0, operator, car1, choosenClient);
-			Opis opis = new Opis(car1.getCurrKM(), LocalDate.now(), "Otdadena bez problem", car1);
+			Rent rent = new Rent(LocalDate.now().plusDays(1), rtrnDate.plusDays(1), 0, 0, operator, car1, choosenClient);
+			Opis opis = new Opis(car1.getCurrKM(), LocalDate.now(), "Отдадена без праблем.", car1);
 
 			Session session1 = rentacar.HibernateUtil.getSessionFactory().openSession();
 			session1.beginTransaction();
@@ -242,6 +247,7 @@ public class RentCarController implements Initializable {
 				car1.setCarStatus(true);
 				list2.remove(car1);
 				session.update(car1);
+				logger.info("Operator "+operator.getUserName()+" rented "+car1+" to a client "+choosenClient.getClientName()+choosenClient.getClientPIN());
 			}
 			session.getTransaction().commit();
 			returnDate.getEditor().clear();
@@ -249,6 +255,7 @@ public class RentCarController implements Initializable {
 			clientTableView.getSelectionModel().clearSelection();
 			clientPIN.clear();
 			carSpecs.clear();
+			carImg.setImage(null);
 		}
 	}
 	

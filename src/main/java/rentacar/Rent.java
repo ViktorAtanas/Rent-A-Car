@@ -29,8 +29,12 @@ public class Rent {
 		
 	}
 	
-
-
+	public Rent(LocalDate dateRent, LocalDate dateReturn, Client client) {
+		super();
+		this.dateRent = dateRent;
+		this.dateReturn = dateReturn;
+		this.client = client;
+	}
 	public Rent(LocalDate dateRent, LocalDate dateReturn, double traveledKM, double totalPrice, Operator operator,
 			Car car, Client client) {
 		super();
@@ -131,7 +135,7 @@ public class Rent {
 
 	@Override
 	public String toString() {
-		return "Наемане: "+ idRent +" Клиент:"+client.getClientPIN();
+		return "№: "+ idRent;
 	}
 	
 	

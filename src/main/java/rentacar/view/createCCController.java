@@ -8,7 +8,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import rentacar.Category;
 import rentacar.Classification;
-import rentacar.Company;
 
 public class createCCController  {
 	// Add Classification

@@ -79,7 +79,7 @@ public class RentCarController implements Initializable {
 		        super.updateItem(item, empty) ;
 		        if (item == null) {
 		            setStyle("");
-		        } else if (item.getClientRating()<39) {
+		        } else if (item.getClientRating()<20) {
 		            setStyle("-fx-background-color: salmon;");
 		        } else {
 		            setStyle("");
@@ -124,6 +124,7 @@ public class RentCarController implements Initializable {
 	@FXML
 	TableColumn<Car, Boolean> smoking;
 	ObservableList<Car> list2;
+	
 	public void initCarTableView() {
 		Session session = rentacar.HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
@@ -136,7 +137,7 @@ public class RentCarController implements Initializable {
 
 		carModelCol.setCellValueFactory(new PropertyValueFactory<Car, String>("carModel"));
 
-		smoking.setCellValueFactory(new PropertyValueFactory<Car, Boolean>("carStatus"));
+		smoking.setCellValueFactory(new PropertyValueFactory<Car, Boolean>("smoking"));
 
 		carCategoryCol.setCellValueFactory(new PropertyValueFactory<Car, Category>("category"));
 
@@ -196,6 +197,7 @@ public class RentCarController implements Initializable {
 			System.out.print("NullPointerException caught");
 		}
 	}
+	
 	public void selectedClient() {
 		clientCheck.setText("");
 	}

@@ -49,7 +49,6 @@ public class Rent {
 	}
 
 
-
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="idRent")
@@ -60,8 +59,6 @@ public class Rent {
 	public void setIdRent(int idRent) {
 		this.idRent = idRent;
 	}
-
-
 
 	public LocalDate getDateRent() {
 		return dateRent;
@@ -120,30 +117,18 @@ public class Rent {
 	}
 
 
-
 	public boolean isCompletedStatus() {
 		return completedStatus;
 	}
-
-
 
 	public void setCompletedStatus(boolean completedStatus) {
 		this.completedStatus = completedStatus;
 	}
 
-
-
 	@Override
 	public String toString() {
-		return "№: "+ idRent;
+		return "№: "+ idRent+" "+ client.getClientName() +" "+client.getClientPIN()+"\n";
 	}
 	
-	
-	/*		return "Rent " + idRent + ", dateRent=" + dateRent + ", dateReturn=" + dateReturn + ", traveledKM="
-				+ traveledKM + ", totalPrice=" + totalPrice + ", operator=" + operator + ", car=" + car + ", client="
-				+ client + "]\n";*/
 
-	
-	
-	
 }

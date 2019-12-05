@@ -52,6 +52,6 @@
       <Label layoutX="325.0" layoutY="14.0" text="Връщане на автомобил" />
       <Button layoutX="357.0" layoutY="457.0" mnemonicParsing="false" onAction="#returnCarBtn" text="Връщане" />
       <Label fx:id="retrunStatus" layoutX="210.0" layoutY="469.0" prefHeight="17.0" prefWidth="361.0" textAlignment="CENTER" wrapText="true" />
-      <Button fx:id="notRed" layoutX="14.0" layoutY="465.0" mnemonicParsing="false" onAction="#notRedBtn" prefHeight="25.0" prefWidth="21.0" text="!!!" visible="false" />
+      <Button fx:id="notRed" layoutX="14.0" layoutY="465.0" mnemonicParsing="false" onAction="#notRedBtn" prefHeight="25.0" prefWidth="21.0" text="!" visible="false" />
    </children>
 </AnchorPane>

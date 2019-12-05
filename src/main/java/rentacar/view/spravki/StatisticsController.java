@@ -30,9 +30,6 @@ public class StatisticsController implements Initializable{
 	@FXML private DatePicker toDate;
 	@FXML private ChoiceBox<String> filterChoiseBox;
 	
-
-
-	
 		@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
@@ -125,15 +122,10 @@ public class StatisticsController implements Initializable{
 				}
 
 				barChart.getData().add(dataSeries2);
-				
 			}
-			
-			
 			
 	    }else
 			statusPeriod.setText("Въведете коректен период!");
-			
-			
 	}
 	
 	

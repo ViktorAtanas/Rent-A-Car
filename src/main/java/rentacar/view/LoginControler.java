@@ -3,7 +3,6 @@ package rentacar.view;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
@@ -69,7 +68,7 @@ public class LoginControler implements Initializable {
 							"from Operator s where s.userName='" + username + "' AND s.password='" + password + "' AND s.statusLogin='0'")
 					.uniqueResult();			
 			if (logedOperator != null) {
-				logger.info("Operator "+logedOperator.getUserName()+" logged in.");
+				logger.info("Operator "+logedOperator.getUserName()+"-"+logedOperator.getNameOfOperator()+" logged in.");
 		    	
 				logedOperator.setStatusLogin(true);
 				session.update(logedOperator);
@@ -79,9 +78,10 @@ public class LoginControler implements Initializable {
 				BorderPane OperatorMainView = loader.load();
 
 				Stage operatorMainStage = new Stage();
-				operatorMainStage.setTitle("Operator " + logedOperator.getNameOfOperator());
+				operatorMainStage.setTitle("Оператор - " + logedOperator.getNameOfOperator());
 				operatorMainStage.initModality(Modality.WINDOW_MODAL);
 				operatorMainStage.getIcons().add(new Image("/photos/icon11.png"));
+				operatorMainStage.setResizable(false);
 				
 				Scene scene = new Scene(OperatorMainView);
 				operatorMainStage.setScene(scene);

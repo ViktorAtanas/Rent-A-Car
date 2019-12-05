@@ -40,7 +40,8 @@
             <Label fx:id="drLicNumbLabel" prefHeight="17.0" prefWidth="138.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
          </children>
       </GridPane>
-      <Button layoutX="354.0" layoutY="340.0" mnemonicParsing="false" onAction="#addOperatorBtn" text="Добавяне на оператор" />
-      <Label fx:id="clStatusAdd" alignment="CENTER" contentDisplay="CENTER" layoutX="334.0" layoutY="386.0" prefHeight="17.0" prefWidth="182.0" textAlignment="CENTER" />
+      <Button layoutX="329.0" layoutY="340.0" mnemonicParsing="false" onAction="#addOperatorBtn" text="Добавяне на оператор" />
+      <Label fx:id="clStatusAdd" alignment="CENTER" contentDisplay="CENTER" layoutX="309.0" layoutY="386.0" prefHeight="17.0" prefWidth="182.0" textAlignment="CENTER" />
+      <Label layoutX="334.0" layoutY="35.0" text="Регистриране на клиент" />
    </children>
 </AnchorPane>

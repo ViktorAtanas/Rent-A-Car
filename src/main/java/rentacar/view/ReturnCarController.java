@@ -166,26 +166,20 @@ public class ReturnCarController implements Initializable{
 		
 		}
 		@FXML private void notRedBtn() {
-			 Label secondLabel = new Label("Изтичащи наемания днес: "+ notificationList.toString());
-			  /*StackPane secondaryLayout = new StackPane();
-              secondaryLayout.getChildren().add(secondLabel);
-
-              Scene secondScene = new Scene(secondaryLayout, 300, 100);
-              Stage newWindow = new Stage();
-              newWindow.setTitle("Известие");
-              newWindow.setScene(secondScene);
-              newWindow.show();*/
-			 
 			 Alert alert = new Alert(AlertType.INFORMATION);
 			 alert.setTitle("Известие");
 			 alert.setHeaderText(null);
-			 alert.setContentText("Изтичащи наемания днес: "+notificationList.toString());
+			 alert.setContentText("Изтичащи наемания днес:\n"+notificationList);
 			 alert.showAndWait();
 		}
 		
 		@FXML private Label rentChoosenLabel;
 		@FXML private Label correctKMLabel;
 		@FXML private Label retrunStatus;
+		
+		public static double calcRaiting(Client c, double number) {
+			return c.getClientRating()-number;
+		}
 		
 		public static  double calcPrice(Car rentedCar,Rent rent,double traveledKm, boolean problems) {
 			LocalDate today = LocalDate.now();
@@ -195,11 +189,11 @@ public class ReturnCarController implements Initializable{
 			if(rent.getDateReturn().isBefore(today)) {
 				totalPrice+=totalPrice*0.08;  //8% vrushtane sled sroka
 				rent.setDateReturn(today);
-				rent.getClient().setClientRating(rent.getClient().getClientRating()-5);
+				rent.getClient().setClientRating(calcRaiting(rent.getClient(), 5));
 			}
 			if(problems) {
 				totalPrice+=50;
-				rent.getClient().setClientRating(rent.getClient().getClientRating()-3);
+				rent.getClient().setClientRating(calcRaiting(rent.getClient(), 3));
 			}
 			return totalPrice;
 		}
@@ -221,25 +215,6 @@ public class ReturnCarController implements Initializable{
 			LocalDate today = LocalDate.now();
 			
 			Double traveledKm = newKm - rentedCar.getCurrKM();
-
-			
-			/*
-			//Price Calculating
-			Period p = Period.between(rent.getDateRent(),rent.getDateReturn());
-			Period extra = Period.between(rent.getDateReturn(),today);
-			Double totalPrice = p.getDays()*rentedCar.getClassification().getPricePerDay()+rentedCar.getClassification().getPricePerKM()*traveledKm;
-			
-			if(rent.getDateReturn().isBefore(today)) {
-				totalPrice+=extra.getDays()*rentedCar.getClassification().getPricePerDay();
-				totalPrice+=totalPrice*0.08;  //8% vrushtane sled sroka
-				rent.setDateReturn(today);
-				rent.getClient().setClientRating(rent.getClient().getClientRating()-5);
-			}
-			if(problemsCheckBox.isSelected()) {
-				totalPrice+=100;
-				rent.getClient().setClientRating(rent.getClient().getClientRating()-3);
-			}
-			*/
 			Double totalPrice=calcPrice(rentedCar, rent,traveledKm,problemsCheckBox.isSelected());
 			
 			rent.setTraveledKM(traveledKm);

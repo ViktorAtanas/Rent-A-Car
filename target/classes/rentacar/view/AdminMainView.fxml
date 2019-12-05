@@ -26,7 +26,6 @@
             <items>
               <MenuItem mnemonicParsing="false" onAction="#addClientCompanyMenuItem" text="Добавяне на оператор/фирма" />
                   <MenuItem mnemonicParsing="false" onAction="#addCategoryClassMenuItem" text="Добавяне на клас/категория" />
-                  <MenuItem mnemonicParsing="false" text="Наемане/Връщане" />
                   <MenuItem mnemonicParsing="false" onAction="#logout" text="Изход от профил" />
             </items>
           </Menu>

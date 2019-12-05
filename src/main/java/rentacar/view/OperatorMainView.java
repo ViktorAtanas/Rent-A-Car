@@ -45,6 +45,7 @@ public class OperatorMainView implements Initializable {
 	@FXML private AnchorPane operatorsWorkAP= new AnchorPane();
 	@FXML private AnchorPane clinetRatingAP= new AnchorPane();
 	@FXML private AnchorPane statisticskAP= new AnchorPane();
+	@FXML private AnchorPane opiskAP= new AnchorPane();
 	@FXML private AnchorPane mainOperatorAP;
 	final static Logger logger = Logger.getLogger(OperatorMainView.class);
 
@@ -189,6 +190,11 @@ public class OperatorMainView implements Initializable {
 		statisticskAP.getChildren().clear();
 		statisticskAP.getChildren().add(FXMLLoader.load(getClass().getResource("spravki/StatisticsView.fxml")));
 		mainBP.setCenter(statisticskAP);
+	}
+	@FXML	public void opisMenuItem() throws IOException {		
+		opiskAP.getChildren().clear();
+		opiskAP.getChildren().add(FXMLLoader.load(getClass().getResource("CarOpisView.fxml")));
+		mainBP.setCenter(opiskAP);
 	}
 
 	

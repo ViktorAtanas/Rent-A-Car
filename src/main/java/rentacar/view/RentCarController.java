@@ -233,7 +233,7 @@ public class RentCarController implements Initializable {
 			Client choosenClient = clientTableView.getSelectionModel().getSelectedItem();
 
 			Rent rent = new Rent(LocalDate.now().plusDays(1), rtrnDate.plusDays(1), 0, 0, operator, car1, choosenClient);
-			Opis opis = new Opis(car1.getCurrKM(), LocalDate.now(), "Отдадена без праблем.", car1);
+			Opis opis = new Opis(car1.getCurrKM(), LocalDate.now(), "Отдадена без проблем.", car1);
 
 			Session session1 = rentacar.HibernateUtil.getSessionFactory().openSession();
 			session1.beginTransaction();

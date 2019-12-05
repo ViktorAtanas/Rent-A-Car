@@ -224,9 +224,9 @@ public class ReturnCarController implements Initializable{
 			rentedCar.setCarStatus(false);
 			rentedCar.setCurrKM(newKm);
 			
-			String returnProblems = "Върната без проблем";
+			String returnProblems = "Върната без проблем.";
 			if(problemsCheckBox.isSelected())
-				returnProblems = problemsTextField.getText().toString();
+				returnProblems = "Върната - "+problemsTextField.getText().toString();
 			
 			Opis returnOpis = new Opis(newKm, today, returnProblems, rentedCar);
 			

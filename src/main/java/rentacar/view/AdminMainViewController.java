@@ -29,7 +29,7 @@ import rentacar.Company;
 import rentacar.Operator;
 
 public class AdminMainViewController implements Initializable {
-	//start
+	
 	@FXML private AnchorPane newClientAP= new AnchorPane();
 	@FXML private AnchorPane newCarap= new AnchorPane();
 	@FXML private AnchorPane addCategroyClassAP= new AnchorPane();
@@ -135,7 +135,7 @@ public class AdminMainViewController implements Initializable {
 	@FXML private Label addOperatorStatusLabel;
 	
 	@FXML
-	private void addOperator() {
+	private void addOperator() { //Function that adds Operators
 		 boolean usernameCheck = DataValidation.textFieldIsNull(operatorUsername, usernameLabel, "Веведете потребителско име");
 		 boolean passwordCheck = DataValidation.textFieldIsNull(operatorPassword, passwordLabel, "Веведете парола");
 		 boolean namesCheck = DataValidation.textAlphabet(operatorNames, namesLabel, "Въведете коректни имена");

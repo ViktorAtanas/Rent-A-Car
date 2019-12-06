@@ -59,7 +59,7 @@ public class RentCarController implements Initializable {
 	}
 	
 
-	public void showClientInfo() {
+	public void showClientInfo() {//Function that adds Clients in table view
 
 		Session session = rentacar.HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
@@ -125,7 +125,7 @@ public class RentCarController implements Initializable {
 	TableColumn<Car, Boolean> smoking;
 	ObservableList<Car> list2;
 	
-	public void initCarTableView() {
+	public void initCarTableView() {//Function that adds Car in table view
 		Session session = rentacar.HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 
@@ -145,7 +145,7 @@ public class RentCarController implements Initializable {
 
 		cartableView.setItems(list2);
 
-		// NACHALO NA FILTRACIQ
+		// Begin of the filtration
 		FilteredList<Car> filteredData = new FilteredList<>(list2, p -> true);
 
 		carSpecs.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -185,7 +185,7 @@ public class RentCarController implements Initializable {
 	    });
 	}
 
-	public void imageViewUpdate() throws MalformedURLException {
+	public void imageViewUpdate() throws MalformedURLException {//Update image view
 		try {
 			Car car1 = cartableView.getSelectionModel().getSelectedItem();
 			File file = new File(car1.getPhotoPath());
@@ -209,7 +209,7 @@ public class RentCarController implements Initializable {
 	@FXML
 	private Label dateCheck;
 
-	public void rentBtn() throws MalformedURLException {
+	public void rentBtn() throws MalformedURLException {//Add to database
 
 		if (clientTableView.getSelectionModel().getSelectedItem() == null)
 			clientCheck.setText("Изберете клиент");

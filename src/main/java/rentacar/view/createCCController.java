@@ -26,7 +26,7 @@ public class createCCController  {
 		@FXML
 		private Label labelClassSucc;
 
-		public void addClassification() {
+		public void addClassification() {//Function that add classification
 			
 			boolean alphabetName = DataValidation.textAlphabet(typeClassification, labelClassT,
 					"Моля, въведете коректен тип клас");

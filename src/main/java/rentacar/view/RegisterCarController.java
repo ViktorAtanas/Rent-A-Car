@@ -82,7 +82,7 @@ public class RegisterCarController implements Initializable {
 	private Label pictureLabel;
 
 	@FXML
-	private void choosePicture() throws MalformedURLException {
+	private void choosePicture() throws MalformedURLException {// Function that select and add picture
 		img1.setImage(null);
 		Stage stage = new Stage();
 		FileChooser.ExtensionFilter imageFilter = new FileChooser.ExtensionFilter("Image Files", "*.jpg", "*.png");

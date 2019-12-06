@@ -3,29 +3,22 @@ package rentacar.view;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.Calendar;
 import java.util.ResourceBundle;
-import java.util.Timer;
-import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
-import org.controlsfx.control.Notifications;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
 import DataValidation.DataValidation;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -37,8 +30,6 @@ import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 import rentacar.Car;
 import rentacar.Client;
 import rentacar.Operator;
@@ -69,7 +60,7 @@ public class ReturnCarController implements Initializable{
 		}
 		
 	}
-		private Client cl1;
+		
 		@FXML private TableView<Rent> rentTableView;
 		@FXML private TableColumn<Rent,LocalDate> rentDayColumn;
 		@FXML private TableColumn<Rent,LocalDate> returnDayColumn;
@@ -179,7 +170,7 @@ public class ReturnCarController implements Initializable{
 			return c.getClientRating()-number;
 		}
 		
-		public static  double calcPrice(Car rentedCar,Rent rent,double traveledKm, boolean problems) {
+		public static  double calcPrice(Car rentedCar,Rent rent,double traveledKm, boolean problems) {//Function that calculate price
 			LocalDate today = LocalDate.now();
 			Period p = Period.between(rent.getDateRent(),today);
 			

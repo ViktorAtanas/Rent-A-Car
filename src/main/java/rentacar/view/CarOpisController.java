@@ -28,7 +28,7 @@ public class CarOpisController implements Initializable {
 	@FXML private TableView<Opis> opisTV;
 
 	
-	@FXML private void opisBtn() {
+	@FXML private void opisBtn() {// add opis for selected car
 		String regNumb = regNumber.getText().toString();
 		
 		boolean regNumberValid = DataValidation.regNumber(regNumber, statusLabel, "Невалиден рег. номер");

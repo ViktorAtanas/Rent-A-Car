@@ -58,35 +58,8 @@ public class OperatorMainView implements Initializable {
 			e.printStackTrace();
 		}
 		
-		//new Notification().start();
-		// Thread thread = new Notification();
-		// thread.start();
-		 
 
-        TimerTask timerTask = new TimerTask() {
-
-            @Override
-            public void run() {
-        		LocalDate today = LocalDate.now();
-        		Session session = rentacar.HibernateUtil.getSessionFactory().openSession();
-        		session.beginTransaction();
-        		Query query = session.createQuery("from Rent r where r.completedStatus='0' AND r.dateReturn<='"+today+"'");
-        		ObservableList<Rent> rentList = FXCollections.observableArrayList(query.list());
-        		session.getTransaction().commit();
-
-        		 Platform.runLater(()->{
-                     Notifications.create().title("Изтекли наемания").text(rentList.toString()).position(Pos.TOP_RIGHT).showInformation();
-                 });
-            }
-        };
-
-       /* Timer timer = new Timer("MyTimer");
-        timer.scheduleAtFixedRate(timerTask, 30, 3000);
-        
-    	*/
-		
-
-		Runnable task = new Runnable() {
+		Runnable task = new Runnable() {// thread init
 			@Override
 			public void run() {
 				LocalDate today = LocalDate.now();
@@ -102,43 +75,10 @@ public class OperatorMainView implements Initializable {
         		
 			}
 		};
-    	/*
-	    Executor e = Executors.newSingleThreadExecutor();
-	    e.execute(task);*/
-		 
-		 
-		 ////
-		/*Timer timer = new Timer();
-		 Thread myThread = new Notification();
-		 Calendar date = Calendar.getInstance();
-		 date.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
-		 date.set(Calendar.HOUR, 15);
-		 date.set(Calendar.MINUTE, 21);
-		 date.set(Calendar.SECOND, 0);
-		 date.set(Calendar.MILLISECOND, 0);
-		 timer.schedule(
-		   new SampleTask (myThread),date.getTime(), 1000 * 60 * 60 * 24);*/
-		
-		
-	 	Thread myThread = new Notification();
-		long delay = ChronoUnit.MILLIS.between(LocalTime.now(), LocalTime.of(10, 50, 01));
 
+		long delay = ChronoUnit.MILLIS.between(LocalTime.now(), LocalTime.of(10, 50, 01));
 		ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 		scheduler.schedule(task, delay, TimeUnit.MILLISECONDS);
-		
-		/*long delay2 = ChronoUnit.MILLIS.between(LocalTime.now(), LocalTime.of(10, 50, 30));
-		ScheduledExecutorService scheduler2 = Executors.newScheduledThreadPool(1);
-		scheduler2.schedule(myThread, delay2, TimeUnit.MILLISECONDS);
-		//scheduler.scheduleAtFixedRate(task, delay, 10000, TimeUnit.MILLISECONDS );*/
-		
-		/*Calendar today = Calendar.getInstance();
-		today.set(Calendar.HOUR_OF_DAY, 10);
-		today.set(Calendar.MINUTE, 44);
-		today.set(Calendar.SECOND, 0);
-
-		// every night at 2am you run your task
-		Timer timer = new Timer();
-		timer.schedule(timerTask, today.getTime(), TimeUnit.MILLISECONDS.convert(1, TimeUnit.DAYS));*/
 	}
 	
 	
@@ -226,21 +166,4 @@ public class OperatorMainView implements Initializable {
 
 }
 
-class Notification extends Thread{
-	
-	public void run() {
-		
-		LocalDate today = LocalDate.now();
-		Session session = rentacar.HibernateUtil.getSessionFactory().openSession();
-		session.beginTransaction();
-		Query<Rent> query = session.createQuery("from Rent r where r.completedStatus='0' AND r.dateReturn='"+today+"'");
-		ObservableList<Rent> rentList = FXCollections.observableArrayList(query.list());
-		session.getTransaction().commit();
-		//if(!rentList.isEmpty())
-		 Platform.runLater(()->{
-             Notifications.create().title("Изтичащи наемания").text(rentList.toString()).position(Pos.TOP_LEFT).showInformation();
-         });
-	}
-	
-}
 

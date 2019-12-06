@@ -30,7 +30,7 @@
       <TableView fx:id="opisTV" layoutX="132.0" layoutY="104.0" prefHeight="369.0" prefWidth="536.0">
         <columns>
           <TableColumn fx:id="dateCol" prefWidth="93.0" text="Дата" />
-            <TableColumn fx:id="problemCol" prefWidth="306.0" text="Проблем" />
+            <TableColumn fx:id="problemCol" prefWidth="306.0" text="Статус" />
           <TableColumn fx:id="kmCol" minWidth="0.0" prefWidth="134.0" text="Километри" />
         </columns>
       </TableView>

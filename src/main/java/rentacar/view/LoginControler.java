@@ -35,7 +35,7 @@ public class LoginControler implements Initializable {
 	@FXML private Label loginVerUser;
 	@FXML private Label loginVerPass;
 	final static Logger logger = Logger.getLogger(LoginControler.class);
-
+	
 	@FXML	private void login() throws IOException {
 
 		String username = textUsername.getText().toString();
@@ -50,7 +50,7 @@ public class LoginControler implements Initializable {
 			BorderPane AdminMainView = loader.load();
 
 			Stage adminMainStage = new Stage();
-			adminMainStage.setTitle("ADMIN *****");
+			adminMainStage.setTitle("Администраторски панел");
 			
 			adminMainStage.initModality(Modality.WINDOW_MODAL);
 			adminMainStage.getIcons().add(new Image("/photos/icon11.png"));
@@ -78,7 +78,7 @@ public class LoginControler implements Initializable {
 				BorderPane OperatorMainView = loader.load();
 
 				Stage operatorMainStage = new Stage();
-				operatorMainStage.setTitle("Оператор - " + logedOperator.getNameOfOperator());
+				operatorMainStage.setTitle("Оператор - " + logedOperator.getNameOfOperator()+" ["+ logedOperator.getCompany().getCompanyName()+"]");
 				operatorMainStage.initModality(Modality.WINDOW_MODAL);
 				operatorMainStage.getIcons().add(new Image("/photos/icon11.png"));
 				operatorMainStage.setResizable(false);

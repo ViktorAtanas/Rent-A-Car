@@ -136,7 +136,7 @@ public class RegisterCarController implements Initializable {
 
 		if (regNumberValid && !carModelNotNull && numericCurrKm && !fileAsString.equals("") && !categoryCheck
 				&& !classCheck) {
-			Double currKm = Double.parseDouble(km);
+			double currKm = Double.parseDouble(km);
 			
 		
 			Car carCheck = (Car) session.createQuery("from Car s where s.regNumber='" + regNumb + "'").uniqueResult();

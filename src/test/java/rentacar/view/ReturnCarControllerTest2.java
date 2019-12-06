@@ -19,7 +19,6 @@ public class ReturnCarControllerTest2 {
 	public void testCalcRaiting() {
 		Client c = new Client("", "", "", 50, "");
 		assertEquals(30,ReturnCarController.calcRaiting(c, 20),0);  
-
 	}
 
 	@Test
@@ -29,7 +28,11 @@ public class ReturnCarControllerTest2 {
 		LocalDate dateReturn = LocalDate.of(2019, Month.DECEMBER,2);
 		Car rentedCar= new Car("","",false,true,0," ",new Classification("",1,1),new Category(" "));
 		Rent rent = new Rent(dateRent, dateReturn,new Client());
-		   assertEquals(5.4,ReturnCarController.calcPrice(rentedCar, rent, 1,false),0);  
+		   assertEquals(6.48,ReturnCarController.calcPrice(rentedCar, rent, 1,false),0);  
 	}
 
+	@Test
+	public void testCalcTraveledKm() {
+		assertEquals(5, ReturnCarController.calcTraveledKm(10,5),0);
+	}
 }

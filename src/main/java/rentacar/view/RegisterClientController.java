@@ -9,6 +9,13 @@ import rentacar.Client;
 
 public class RegisterClientController {
 	
+	public static boolean checkCl(Client c) {
+		if(c==null)
+			return true;
+		else return false;
+
+	}
+	
 	Session session = rentacar.HibernateUtil.getSessionFactory().openSession();
 	//Add Client
 		@FXML	private TextField clPin;
@@ -36,17 +43,15 @@ public class RegisterClientController {
 			 
 			 if(numericPin && alphabetName && !addressNotNull && numericDrLicNUmb)
 			 {
-				 	
 			        session.beginTransaction();
 					Client cliCheck = (Client) session.createQuery("from Client s where s.clientPIN='" + cPin + "'").uniqueResult();
 			        
-				 if(cliCheck==null)
+				 if(checkCl(cliCheck))
 				 {
 					 Client client1 = new Client(cNames, cPin, cAddress, 50, cDrLicence);
 				        session.save(client1);
 				        clStatusAdd.setText("Успешно регистриран клиент!");
-				        
-				        
+				        				        
 				 }else {
 					 clStatusAdd.setText("Съществуващ клиент!");
 				 }
@@ -54,15 +59,10 @@ public class RegisterClientController {
 				session.getTransaction().commit();
 				 
 					clPin.clear(); clNames.clear(); clAddress.clear();clDrLicence.clear();
-					
-			 }
+								 }
 			 else {
 				 clStatusAdd.setText("Грешни полета!");
-				 
 			 }
 			
-			 
-
 		}
-
 }

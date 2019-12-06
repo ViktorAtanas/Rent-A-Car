@@ -31,8 +31,6 @@ public static boolean dataLength(TextField inputTextField, Label inputLabel, Str
 
 		}
 		inputLabel.setText(validationString);
-
-		//System.out.println(inputTextField.getText().matches("[a-z A-Z]"));
 		return isAlphabet;
 
 	}
@@ -46,8 +44,6 @@ public static boolean dataLength(TextField inputTextField, Label inputLabel, Str
 
         }
         inputLabel.setText(validationString);
-
-        //System.out.println(inputTextField.getText().matches("[a-z A-Z]"));
         return isAlphabet;
 
     }
@@ -87,10 +83,8 @@ public static boolean dataLength(TextField inputTextField, Label inputLabel, Str
         if (!inputTextField.getText().matches("(^[A-Z]{2}[0-9]{4}[A-Z]{2}$)|(^[A-Z]{1}[0-9]{4}[A-Z]{2}$)")) {
             isZID = false;
             validationString = validationText;
-
         }
         inputLabel.setText(validationString);
-
         return isZID;
 
     }
@@ -103,7 +97,6 @@ public static boolean dataLength(TextField inputTextField, Label inputLabel, Str
         if (inputTextField.getText().isEmpty()) {
             isNull = true;
             validationString = validationText;
-
         }
        
         inputLabel.setText(validationString);

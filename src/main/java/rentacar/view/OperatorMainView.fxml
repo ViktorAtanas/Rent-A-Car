@@ -36,11 +36,6 @@
                   <MenuItem mnemonicParsing="false" onAction="#statisticsMenuItem" text="Статистики на отдадените автомобили" />
               </items>
             </Menu>
-          <Menu mnemonicParsing="false" text="Помощ">
-            <items>
-              <MenuItem mnemonicParsing="false" text="За програмата" />
-            </items>
-          </Menu>
         </menus>
       </MenuBar>
    </top>

@@ -141,8 +141,6 @@ public class ReturnCarController implements Initializable{
 			// TODO Auto-generated method stub
 			updateRentListView();
 			
-			
-			
 			Runnable task = new Runnable() {
 				@Override
 				public void run() {
@@ -188,7 +186,7 @@ public class ReturnCarController implements Initializable{
 			Double totalPrice = p.getDays()*rentedCar.getClassification().getPricePerDay()+rentedCar.getClassification().getPricePerKM()*traveledKm;
 			if(rent.getDateReturn().isBefore(today)) {
 				totalPrice+=totalPrice*0.08;  //8% vrushtane sled sroka
-				rent.setDateReturn(today);
+				rent.setDateReturn(today.plusDays(1));
 				rent.getClient().setClientRating(calcRaiting(rent.getClient(), 5));
 			}
 			if(problems) {
@@ -198,6 +196,9 @@ public class ReturnCarController implements Initializable{
 			return totalPrice;
 		}
 		
+		public static double calcTraveledKm(double a,double b) {
+			return a-b;
+		}
 
 		@FXML private void returnCarBtn() {
 			
@@ -214,8 +215,9 @@ public class ReturnCarController implements Initializable{
 			Car rentedCar = rent.getCar();
 			LocalDate today = LocalDate.now();
 			
-			Double traveledKm = newKm - rentedCar.getCurrKM();
-			Double totalPrice=calcPrice(rentedCar, rent,traveledKm,problemsCheckBox.isSelected());
+			//Double traveledKm = newKm - rentedCar.getCurrKM();
+			double traveledKm = calcTraveledKm(newKm, rentedCar.getCurrKM());
+			double totalPrice=calcPrice(rentedCar, rent,traveledKm,problemsCheckBox.isSelected());
 			
 			rent.setTraveledKM(traveledKm);
 			rent.setTotalPrice(totalPrice);

@@ -89,7 +89,7 @@ public class ReturnCarController implements Initializable{
 			
 			rentTableView.setItems(list1);
 			
-			  FilteredList<Rent> filteredData = new FilteredList<>(list1, p -> true);
+			FilteredList<Rent> filteredData = new FilteredList<>(list1, p -> true);
 
 			clientPin.textProperty().addListener((observable, oldValue, newValue) -> {
 	            filteredData.setPredicate(rent -> {
@@ -109,7 +109,9 @@ public class ReturnCarController implements Initializable{
 	        SortedList<Rent> sortedData = new SortedList<>(filteredData);
 	        sortedData.comparatorProperty().bind(rentTableView.comparatorProperty());
 	        rentTableView.setItems(sortedData); 
+	        
 	        LocalDate today = LocalDate.now();
+	        
 	        rentTableView.setRowFactory(t -> new TableRow<Rent>() {
 			    @Override
 			    public void updateItem(Rent item, boolean empty) {
@@ -228,7 +230,14 @@ public class ReturnCarController implements Initializable{
 		     session.update(rent);
 		     session.update(rentedCar);
 		     session.save(returnOpis);
-		     list1.remove(rent);
+	     
+		     Alert alert = new Alert(AlertType.INFORMATION);
+			 alert.setTitle("Наемане " + rent.getIdRent());
+			 alert.setHeaderText(null);
+			 alert.setContentText("Пероид: " + rent.getDateRent()+ "/"+ today+ " \n" + "Клиент: " + rent.getClient().getClientName()+ "\n" + "Изминати километри: " + traveledKm+ "\n" + "Кола: " + rentedCar+ "\n" + "Дължима сума: " + totalPrice +" лв ");
+			 alert.showAndWait();
+			 
+			 list1.remove(rent);
 		     session.getTransaction().commit();
 			Operator operator = Singleton.getInstance().getLogedOperator();
 		    logger.info("Client "+rent.getClient().getClientName()+" "+rent.getClient().getClientPIN()+" returned car "+rentedCar+" to operator "+operator.getUserName());

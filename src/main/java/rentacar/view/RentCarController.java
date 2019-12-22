@@ -52,6 +52,7 @@ public class RentCarController implements Initializable {
 	@FXML	private TableColumn<Client, String> clientAddress;
 	@FXML	private TableColumn<Client, Double> clientrating;
 	@FXML	private AnchorPane apRent;
+	
 	@FXML	private void ChangeAPtoReturn() throws IOException
 	{
 		apRent.getChildren().clear();
@@ -73,6 +74,7 @@ public class RentCarController implements Initializable {
 		clientAddress.setCellValueFactory(new PropertyValueFactory<Client, String>("clientAddress"));
 		clientDriveLic.setCellValueFactory(new PropertyValueFactory<Client, String>("clientDriveLicenceNumber"));
 		clientrating.setCellValueFactory(new PropertyValueFactory<Client, Double>("clientRating"));
+		
 		clientTableView.setRowFactory(t -> new TableRow<Client>() {
 		    @Override
 		    public void updateItem(Client item, boolean empty) {
@@ -179,7 +181,6 @@ public class RentCarController implements Initializable {
 	        public void updateItem(LocalDate date, boolean empty) {
 	            super.updateItem(date, empty);
 	            LocalDate today = LocalDate.now();
-
 	            setDisable(empty || date.compareTo(today) < 0 );
 	        }
 	    });

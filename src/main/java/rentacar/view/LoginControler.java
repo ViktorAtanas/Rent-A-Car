@@ -86,6 +86,7 @@ public class LoginControler implements Initializable {
 				Scene scene = new Scene(OperatorMainView);
 				operatorMainStage.setScene(scene);
 				operatorMainStage.show();
+				
 				operatorMainStage.setOnCloseRequest((WindowEvent event1) -> {
 				     Operator loged = Singleton.getInstance().getLogedOperator();
 					 Session session1 = rentacar.HibernateUtil.getSessionFactory().openSession();

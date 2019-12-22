@@ -1,6 +1,7 @@
 package rentacar.view;
 
 import org.hibernate.Session;
+
 import DataValidation.DataValidation;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

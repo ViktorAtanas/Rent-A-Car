@@ -51,7 +51,7 @@ public class StatisticsController implements Initializable{
 		
 		if(startDate!=null && endDate!=null)
 		{
-						statusPeriod.setText("");
+		statusPeriod.setText("");
 		Session session = rentacar.HibernateUtil.getSessionFactory().openSession();
 	    session.beginTransaction();
 		Query query1 = session.createQuery("Select s.car from Rent s where (dateRent BETWEEN '" + startDate + "' AND '" + endDate+ "') OR (dateReturn BETWEEN '" + startDate + "' AND '" + endDate + "') OR (dateRent < '"+startDate+"' AND dateReturn > '"+endDate+"')"); 
@@ -68,13 +68,13 @@ public class StatisticsController implements Initializable{
 				p=0;
 				XYChart.Series<String, Number> dataSeries1 = new XYChart.Series<String, Number>();
 				dataSeries1.setName("Клас");
-				Set<Category> categoriesList = new HashSet<Category>(); 
+				Set<Category> categorieSet = new HashSet<Category>(); 
 				for (Car car : listCar) {
-					categoriesList.add(car.getCategory());
+					categorieSet.add(car.getCategory());
 				}
 				ArrayList<Integer> numCategory = new ArrayList<Integer>();
 				int k=1, index=0;
-				for (Category category : categoriesList) {
+				for (Category category : categorieSet) {
 					numCategory.add(index, 0);
 					for (Car car : listCar) {							
 						if(car.getCategory().equals(category))
@@ -86,7 +86,8 @@ public class StatisticsController implements Initializable{
 				    k=1;
 				    index++;
 				}
-				for (Category category : categoriesList) {
+				
+				for (Category category : categorieSet) {
 					dataSeries1.getData().add(new XYChart.Data<String, Number>(category.getCategoryType(), numCategory.get(p)));
 					p++;
 				}

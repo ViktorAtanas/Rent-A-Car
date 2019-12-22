@@ -75,7 +75,7 @@ public class Classification {
 
 	@Override
 	public String toString() {
-		return "" + classificationType + ", " + pricePerDay+ "/ден, " + pricePerKM+ "/км ";
+		return "" + classificationType + ", " + pricePerDay+ "лв/ден, " + pricePerKM+ "/км ";
 	}
 	
 	

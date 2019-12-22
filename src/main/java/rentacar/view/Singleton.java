@@ -1,6 +1,5 @@
 package rentacar.view;
 
-import javafx.stage.Stage;
 import rentacar.Operator;
 
 public class Singleton {

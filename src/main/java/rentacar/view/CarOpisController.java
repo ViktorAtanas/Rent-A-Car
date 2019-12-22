@@ -17,9 +17,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import rentacar.Car;
-import rentacar.Category;
-import rentacar.Client;
 import rentacar.Opis;
 
 public class CarOpisController implements Initializable {
@@ -28,7 +25,7 @@ public class CarOpisController implements Initializable {
 	@FXML private TableView<Opis> opisTV;
 
 	
-	@FXML private void opisBtn() {// add opis for selected car
+	@FXML private void opisBtn() {// show opis for selected car
 		String regNumb = regNumber.getText().toString();
 		
 		boolean regNumberValid = DataValidation.regNumber(regNumber, statusLabel, "Невалиден рег. номер");
@@ -38,7 +35,6 @@ public class CarOpisController implements Initializable {
 	    Query query = session.createQuery("from Opis o where o.car.regNumber='"+regNumb+"'"); 
 		ObservableList<Opis> listOpis = FXCollections.observableArrayList(query.list());
 		session.getTransaction().commit();
-		System.out.println("ETO"+listOpis);
 		opisTV.setItems(listOpis);
 		regNumber.clear();
 		}

@@ -7,7 +7,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ResourceBundle;
-import java.util.TimerTask;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -65,7 +64,7 @@ public class OperatorMainView implements Initializable {
 				LocalDate today = LocalDate.now();
         		Session session = rentacar.HibernateUtil.getSessionFactory().openSession();
         		session.beginTransaction();
-        		Query query = session.createQuery("from Rent r where r.completedStatus='0' AND r.dateReturn<'"+today+"'");
+        		Query<Rent> query = session.createQuery("from Rent r where r.completedStatus='0' AND r.dateReturn<'"+today+"'");
         		ObservableList<Rent> rentList = FXCollections.observableArrayList(query.list());
         		session.getTransaction().commit();
         		

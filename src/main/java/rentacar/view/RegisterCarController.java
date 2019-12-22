@@ -26,7 +26,6 @@ import javafx.stage.Stage;
 import rentacar.Car;
 import rentacar.Category;
 import rentacar.Classification;
-import rentacar.Client;
 
 public class RegisterCarController implements Initializable {
 
@@ -137,8 +136,6 @@ public class RegisterCarController implements Initializable {
 		if (regNumberValid && !carModelNotNull && numericCurrKm && !fileAsString.equals("") && !categoryCheck
 				&& !classCheck) {
 			double currKm = Double.parseDouble(km);
-			
-		
 			Car carCheck = (Car) session.createQuery("from Car s where s.regNumber='" + regNumb + "'").uniqueResult();
 
 			if (carCheck == null) {
@@ -146,7 +143,7 @@ public class RegisterCarController implements Initializable {
 						carCategory);
 				session.save(car1);
 				statusAdded.setTextFill(Color.web("#00FF00"));
-				statusAdded.setText("Успешно регистриран клиент!");
+				statusAdded.setText("Успешно добавен автомобил!");
 				regNumber.clear();
 				carModel.clear();
 				currentKM.clear();
@@ -158,8 +155,6 @@ public class RegisterCarController implements Initializable {
 				statusAdded.setTextFill(Color.web("#FF0000"));
 				statusAdded.setText("Съществуващ автомобил!");
 			}
-
-		
 
 		} else {
 			statusAdded.setTextFill(Color.web("#FF0000"));

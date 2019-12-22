@@ -39,8 +39,8 @@
                 <TableColumn fx:id="regNumberCol" prefWidth="87.0" resizable="false" text="Рег номер" />
                 <TableColumn fx:id="carModelCol" prefWidth="135.0" resizable="false" text="Модел" />
                   <TableColumn fx:id="smoking" prefWidth="58.0" resizable="false" text="Пушене" />
-                  <TableColumn fx:id="carClassificatinCol" prefWidth="184.0" resizable="false" text="Клас" />
-                  <TableColumn fx:id="carCategoryCol" prefWidth="142.0" resizable="false" text="Категория" />
+                  <TableColumn fx:id="carClassificatinCol" prefWidth="213.0" resizable="false" text="Клас" />
+                  <TableColumn fx:id="carCategoryCol" prefWidth="113.0" resizable="false" text="Категория" />
               </columns>
             </TableView>
             <AnchorPane prefHeight="192.0" prefWidth="158.0" GridPane.rowIndex="3">
